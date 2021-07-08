@@ -130,11 +130,51 @@ class PaymentContextResponse {
   }
 }
 
+class DisplayHintsPaymentItem {
+  int? displayOrder;
+  String? label;
+  String? logoUrl;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['displayOrder'] = displayOrder;
+    pigeonMap['label'] = label;
+    pigeonMap['logoUrl'] = logoUrl;
+    return pigeonMap;
+  }
+
+  static DisplayHintsPaymentItem decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return DisplayHintsPaymentItem()
+      ..displayOrder = pigeonMap['displayOrder'] as int?
+      ..label = pigeonMap['label'] as String?
+      ..logoUrl = pigeonMap['logoUrl'] as String?;
+  }
+}
+
 class PaymentProduct {
+  String? id;
+  String? paymentMethod;
+  String? paymentProductGroup;
+  double? minAmount;
+  double? maxAmount;
+  bool? allowsRecurring;
+  bool? allowsTokenization;
+  bool? usesRedirectionTo3rdParty;
+  DisplayHintsPaymentItem? displayHints;
   List<Object?>? fields;
 
   Object encode() {
     final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['id'] = id;
+    pigeonMap['paymentMethod'] = paymentMethod;
+    pigeonMap['paymentProductGroup'] = paymentProductGroup;
+    pigeonMap['minAmount'] = minAmount;
+    pigeonMap['maxAmount'] = maxAmount;
+    pigeonMap['allowsRecurring'] = allowsRecurring;
+    pigeonMap['allowsTokenization'] = allowsTokenization;
+    pigeonMap['usesRedirectionTo3rdParty'] = usesRedirectionTo3rdParty;
+    pigeonMap['displayHints'] = displayHints == null ? null : displayHints!.encode();
     pigeonMap['fields'] = fields;
     return pigeonMap;
   }
@@ -142,7 +182,64 @@ class PaymentProduct {
   static PaymentProduct decode(Object message) {
     final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
     return PaymentProduct()
+      ..id = pigeonMap['id'] as String?
+      ..paymentMethod = pigeonMap['paymentMethod'] as String?
+      ..paymentProductGroup = pigeonMap['paymentProductGroup'] as String?
+      ..minAmount = pigeonMap['minAmount'] as double?
+      ..maxAmount = pigeonMap['maxAmount'] as double?
+      ..allowsRecurring = pigeonMap['allowsRecurring'] as bool?
+      ..allowsTokenization = pigeonMap['allowsTokenization'] as bool?
+      ..usesRedirectionTo3rdParty = pigeonMap['usesRedirectionTo3rdParty'] as bool?
+      ..displayHints = pigeonMap['displayHints'] != null
+          ? DisplayHintsPaymentItem.decode(pigeonMap['displayHints']!)
+          : null
       ..fields = pigeonMap['fields'] as List<Object?>?;
+  }
+}
+
+class PaymentRequest {
+  Map<Object?, Object?>? values;
+  PaymentProduct? paymentProduct;
+  bool? tokenize;
+  String? sessionId;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['values'] = values;
+    pigeonMap['paymentProduct'] = paymentProduct == null ? null : paymentProduct!.encode();
+    pigeonMap['tokenize'] = tokenize;
+    pigeonMap['sessionId'] = sessionId;
+    return pigeonMap;
+  }
+
+  static PaymentRequest decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return PaymentRequest()
+      ..values = pigeonMap['values'] as Map<Object?, Object?>?
+      ..paymentProduct = pigeonMap['paymentProduct'] != null
+          ? PaymentProduct.decode(pigeonMap['paymentProduct']!)
+          : null
+      ..tokenize = pigeonMap['tokenize'] as bool?
+      ..sessionId = pigeonMap['sessionId'] as String?;
+  }
+}
+
+class PreparedPaymentRequest {
+  String? encryptedFields;
+  String? encodedClientMetaInfo;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['encryptedFields'] = encryptedFields;
+    pigeonMap['encodedClientMetaInfo'] = encodedClientMetaInfo;
+    return pigeonMap;
+  }
+
+  static PreparedPaymentRequest decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return PreparedPaymentRequest()
+      ..encryptedFields = pigeonMap['encryptedFields'] as String?
+      ..encodedClientMetaInfo = pigeonMap['encodedClientMetaInfo'] as String?;
   }
 }
 
@@ -166,12 +263,20 @@ class _ApiCodec extends StandardMessageCodec {
       buffer.putUint8(124);
       writeValue(buffer, value.encode());
     }
-    else if (value is SessionRequest) {
+    else if (value is PaymentRequest) {
       buffer.putUint8(123);
       writeValue(buffer, value.encode());
     }
-    else if (value is SessionResponse) {
+    else if (value is PreparedPaymentRequest) {
       buffer.putUint8(122);
+      writeValue(buffer, value.encode());
+    }
+    else if (value is SessionRequest) {
+      buffer.putUint8(121);
+      writeValue(buffer, value.encode());
+    }
+    else if (value is SessionResponse) {
+      buffer.putUint8(120);
       writeValue(buffer, value.encode());
     }
     else {
@@ -194,9 +299,15 @@ class _ApiCodec extends StandardMessageCodec {
         return PaymentProduct.decode(readValue(buffer)!);
       
       case 123:       
-        return SessionRequest.decode(readValue(buffer)!);
+        return PaymentRequest.decode(readValue(buffer)!);
       
       case 122:       
+        return PreparedPaymentRequest.decode(readValue(buffer)!);
+      
+      case 121:       
+        return SessionRequest.decode(readValue(buffer)!);
+      
+      case 120:       
         return SessionResponse.decode(readValue(buffer)!);
       
       default:      
@@ -285,6 +396,30 @@ class Api {
       );
     } else {
       return PaymentProduct.decode(replyMap['result']!);
+    }
+  }
+
+  Future<PreparedPaymentRequest> preparePaymentRequest(PaymentRequest arg) async {
+    final Object encoded = arg.encode();
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.Api.preparePaymentRequest', codec, binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(encoded) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+        details: null,
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else {
+      return PreparedPaymentRequest.decode(replyMap['result']!);
     }
   }
 }

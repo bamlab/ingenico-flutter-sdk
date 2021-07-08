@@ -211,20 +211,182 @@ public class Messages {
   }
 
   /** Generated class from Pigeon that represents data sent in messages. */
+  public static class DisplayHintsPaymentItem {
+    private Long displayOrder;
+    public Long getDisplayOrder() { return displayOrder; }
+    public void setDisplayOrder(Long setterArg) { this.displayOrder = setterArg; }
+
+    private String label;
+    public String getLabel() { return label; }
+    public void setLabel(String setterArg) { this.label = setterArg; }
+
+    private String logoUrl;
+    public String getLogoUrl() { return logoUrl; }
+    public void setLogoUrl(String setterArg) { this.logoUrl = setterArg; }
+
+    Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("displayOrder", displayOrder);
+      toMapResult.put("label", label);
+      toMapResult.put("logoUrl", logoUrl);
+      return toMapResult;
+    }
+    static DisplayHintsPaymentItem fromMap(Map<String, Object> map) {
+      DisplayHintsPaymentItem fromMapResult = new DisplayHintsPaymentItem();
+      Object displayOrder = map.get("displayOrder");
+      fromMapResult.displayOrder = (displayOrder == null) ? null : ((displayOrder instanceof Integer) ? (Integer)displayOrder : (Long)displayOrder);
+      Object label = map.get("label");
+      fromMapResult.label = (String)label;
+      Object logoUrl = map.get("logoUrl");
+      fromMapResult.logoUrl = (String)logoUrl;
+      return fromMapResult;
+    }
+  }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
   public static class PaymentProduct {
+    private String id;
+    public String getId() { return id; }
+    public void setId(String setterArg) { this.id = setterArg; }
+
+    private String paymentMethod;
+    public String getPaymentMethod() { return paymentMethod; }
+    public void setPaymentMethod(String setterArg) { this.paymentMethod = setterArg; }
+
+    private String paymentProductGroup;
+    public String getPaymentProductGroup() { return paymentProductGroup; }
+    public void setPaymentProductGroup(String setterArg) { this.paymentProductGroup = setterArg; }
+
+    private Double minAmount;
+    public Double getMinAmount() { return minAmount; }
+    public void setMinAmount(Double setterArg) { this.minAmount = setterArg; }
+
+    private Double maxAmount;
+    public Double getMaxAmount() { return maxAmount; }
+    public void setMaxAmount(Double setterArg) { this.maxAmount = setterArg; }
+
+    private Boolean allowsRecurring;
+    public Boolean getAllowsRecurring() { return allowsRecurring; }
+    public void setAllowsRecurring(Boolean setterArg) { this.allowsRecurring = setterArg; }
+
+    private Boolean allowsTokenization;
+    public Boolean getAllowsTokenization() { return allowsTokenization; }
+    public void setAllowsTokenization(Boolean setterArg) { this.allowsTokenization = setterArg; }
+
+    private Boolean usesRedirectionTo3rdParty;
+    public Boolean getUsesRedirectionTo3rdParty() { return usesRedirectionTo3rdParty; }
+    public void setUsesRedirectionTo3rdParty(Boolean setterArg) { this.usesRedirectionTo3rdParty = setterArg; }
+
+    private DisplayHintsPaymentItem displayHints;
+    public DisplayHintsPaymentItem getDisplayHints() { return displayHints; }
+    public void setDisplayHints(DisplayHintsPaymentItem setterArg) { this.displayHints = setterArg; }
+
     private List<Object> fields;
     public List<Object> getFields() { return fields; }
     public void setFields(List<Object> setterArg) { this.fields = setterArg; }
 
     Map<String, Object> toMap() {
       Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("id", id);
+      toMapResult.put("paymentMethod", paymentMethod);
+      toMapResult.put("paymentProductGroup", paymentProductGroup);
+      toMapResult.put("minAmount", minAmount);
+      toMapResult.put("maxAmount", maxAmount);
+      toMapResult.put("allowsRecurring", allowsRecurring);
+      toMapResult.put("allowsTokenization", allowsTokenization);
+      toMapResult.put("usesRedirectionTo3rdParty", usesRedirectionTo3rdParty);
+      toMapResult.put("displayHints", displayHints.toMap());
       toMapResult.put("fields", fields);
       return toMapResult;
     }
     static PaymentProduct fromMap(Map<String, Object> map) {
       PaymentProduct fromMapResult = new PaymentProduct();
+      Object id = map.get("id");
+      fromMapResult.id = (String)id;
+      Object paymentMethod = map.get("paymentMethod");
+      fromMapResult.paymentMethod = (String)paymentMethod;
+      Object paymentProductGroup = map.get("paymentProductGroup");
+      fromMapResult.paymentProductGroup = (String)paymentProductGroup;
+      Object minAmount = map.get("minAmount");
+      fromMapResult.minAmount = (Double)minAmount;
+      Object maxAmount = map.get("maxAmount");
+      fromMapResult.maxAmount = (Double)maxAmount;
+      Object allowsRecurring = map.get("allowsRecurring");
+      fromMapResult.allowsRecurring = (Boolean)allowsRecurring;
+      Object allowsTokenization = map.get("allowsTokenization");
+      fromMapResult.allowsTokenization = (Boolean)allowsTokenization;
+      Object usesRedirectionTo3rdParty = map.get("usesRedirectionTo3rdParty");
+      fromMapResult.usesRedirectionTo3rdParty = (Boolean)usesRedirectionTo3rdParty;
+      Object displayHints = map.get("displayHints");
+      fromMapResult.displayHints = DisplayHintsPaymentItem.fromMap((Map)displayHints);
       Object fields = map.get("fields");
       fromMapResult.fields = (List<Object>)fields;
+      return fromMapResult;
+    }
+  }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class PaymentRequest {
+    private Map<Object, Object> values;
+    public Map<Object, Object> getValues() { return values; }
+    public void setValues(Map<Object, Object> setterArg) { this.values = setterArg; }
+
+    private PaymentProduct paymentProduct;
+    public PaymentProduct getPaymentProduct() { return paymentProduct; }
+    public void setPaymentProduct(PaymentProduct setterArg) { this.paymentProduct = setterArg; }
+
+    private Boolean tokenize;
+    public Boolean getTokenize() { return tokenize; }
+    public void setTokenize(Boolean setterArg) { this.tokenize = setterArg; }
+
+    private String sessionId;
+    public String getSessionId() { return sessionId; }
+    public void setSessionId(String setterArg) { this.sessionId = setterArg; }
+
+    Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("values", values);
+      toMapResult.put("paymentProduct", paymentProduct.toMap());
+      toMapResult.put("tokenize", tokenize);
+      toMapResult.put("sessionId", sessionId);
+      return toMapResult;
+    }
+    static PaymentRequest fromMap(Map<String, Object> map) {
+      PaymentRequest fromMapResult = new PaymentRequest();
+      Object values = map.get("values");
+      fromMapResult.values = (Map<Object, Object>)values;
+      Object paymentProduct = map.get("paymentProduct");
+      fromMapResult.paymentProduct = PaymentProduct.fromMap((Map)paymentProduct);
+      Object tokenize = map.get("tokenize");
+      fromMapResult.tokenize = (Boolean)tokenize;
+      Object sessionId = map.get("sessionId");
+      fromMapResult.sessionId = (String)sessionId;
+      return fromMapResult;
+    }
+  }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class PreparedPaymentRequest {
+    private String encryptedFields;
+    public String getEncryptedFields() { return encryptedFields; }
+    public void setEncryptedFields(String setterArg) { this.encryptedFields = setterArg; }
+
+    private String encodedClientMetaInfo;
+    public String getEncodedClientMetaInfo() { return encodedClientMetaInfo; }
+    public void setEncodedClientMetaInfo(String setterArg) { this.encodedClientMetaInfo = setterArg; }
+
+    Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("encryptedFields", encryptedFields);
+      toMapResult.put("encodedClientMetaInfo", encodedClientMetaInfo);
+      return toMapResult;
+    }
+    static PreparedPaymentRequest fromMap(Map<String, Object> map) {
+      PreparedPaymentRequest fromMapResult = new PreparedPaymentRequest();
+      Object encryptedFields = map.get("encryptedFields");
+      fromMapResult.encryptedFields = (String)encryptedFields;
+      Object encodedClientMetaInfo = map.get("encodedClientMetaInfo");
+      fromMapResult.encodedClientMetaInfo = (String)encodedClientMetaInfo;
       return fromMapResult;
     }
   }
@@ -251,9 +413,15 @@ public class Messages {
           return PaymentProduct.fromMap((Map<String, Object>) readValue(buffer));
         
         case 123:         
-          return SessionRequest.fromMap((Map<String, Object>) readValue(buffer));
+          return PaymentRequest.fromMap((Map<String, Object>) readValue(buffer));
         
         case 122:         
+          return PreparedPaymentRequest.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case 121:         
+          return SessionRequest.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case 120:         
           return SessionResponse.fromMap((Map<String, Object>) readValue(buffer));
         
         default:        
@@ -279,12 +447,20 @@ public class Messages {
         stream.write(124);
         writeValue(stream, ((PaymentProduct) value).toMap());
       }
-      else if (value instanceof SessionRequest) {
+      else if (value instanceof PaymentRequest) {
         stream.write(123);
+        writeValue(stream, ((PaymentRequest) value).toMap());
+      }
+      else if (value instanceof PreparedPaymentRequest) {
+        stream.write(122);
+        writeValue(stream, ((PreparedPaymentRequest) value).toMap());
+      }
+      else if (value instanceof SessionRequest) {
+        stream.write(121);
         writeValue(stream, ((SessionRequest) value).toMap());
       }
       else if (value instanceof SessionResponse) {
-        stream.write(122);
+        stream.write(120);
         writeValue(stream, ((SessionResponse) value).toMap());
       }
       else {
@@ -298,6 +474,7 @@ public class Messages {
     SessionResponse initClientSession(SessionRequest arg);
     void getBasicPaymentItems(PaymentContextRequest arg, Result<PaymentContextResponse> result);
     void getPaymentProduct(GetPaymentProductRequest arg, Result<PaymentProduct> result);
+    void preparePaymentRequest(PaymentRequest arg, Result<PreparedPaymentRequest> result);
 
     /** The codec used by Api. */
     static MessageCodec<Object> getCodec() {
@@ -357,6 +534,26 @@ public class Messages {
               @SuppressWarnings("ConstantConditions")
               GetPaymentProductRequest input = GetPaymentProductRequest.fromMap((Map<String, Object>)message);
               api.getPaymentProduct(input, result -> { wrapped.put("result", result.toMap()); reply.reply(wrapped); });
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+              reply.reply(wrapped);
+            }
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.Api.preparePaymentRequest", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              @SuppressWarnings("ConstantConditions")
+              PaymentRequest input = PaymentRequest.fromMap((Map<String, Object>)message);
+              api.preparePaymentRequest(input, result -> { wrapped.put("result", result.toMap()); reply.reply(wrapped); });
             }
             catch (Error | RuntimeException exception) {
               wrapped.put("error", wrapError(exception));

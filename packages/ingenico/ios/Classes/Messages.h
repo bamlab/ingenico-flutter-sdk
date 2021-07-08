@@ -13,7 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 @class PaymentContextRequest;
 @class GetPaymentProductRequest;
 @class PaymentContextResponse;
+@class DisplayHintsPaymentItem;
 @class PaymentProduct;
+@class PaymentRequest;
+@class PreparedPaymentRequest;
 
 @interface SessionRequest : NSObject
 @property(nonatomic, copy, nullable) NSString * clientSessionId;
@@ -49,8 +52,35 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) NSArray * basicPaymentProduct;
 @end
 
+@interface DisplayHintsPaymentItem : NSObject
+@property(nonatomic, strong, nullable) NSNumber * displayOrder;
+@property(nonatomic, copy, nullable) NSString * label;
+@property(nonatomic, copy, nullable) NSString * logoUrl;
+@end
+
 @interface PaymentProduct : NSObject
+@property(nonatomic, copy, nullable) NSString * id;
+@property(nonatomic, copy, nullable) NSString * paymentMethod;
+@property(nonatomic, copy, nullable) NSString * paymentProductGroup;
+@property(nonatomic, strong, nullable) NSNumber * minAmount;
+@property(nonatomic, strong, nullable) NSNumber * maxAmount;
+@property(nonatomic, strong, nullable) NSNumber * allowsRecurring;
+@property(nonatomic, strong, nullable) NSNumber * allowsTokenization;
+@property(nonatomic, strong, nullable) NSNumber * usesRedirectionTo3rdParty;
+@property(nonatomic, strong, nullable) DisplayHintsPaymentItem * displayHints;
 @property(nonatomic, strong, nullable) NSArray * fields;
+@end
+
+@interface PaymentRequest : NSObject
+@property(nonatomic, strong, nullable) NSDictionary * values;
+@property(nonatomic, strong, nullable) PaymentProduct * paymentProduct;
+@property(nonatomic, strong, nullable) NSNumber * tokenize;
+@property(nonatomic, copy, nullable) NSString * sessionId;
+@end
+
+@interface PreparedPaymentRequest : NSObject
+@property(nonatomic, copy, nullable) NSString * encryptedFields;
+@property(nonatomic, copy, nullable) NSString * encodedClientMetaInfo;
 @end
 
 /// The codec used by Api.
@@ -60,6 +90,7 @@ NSObject<FlutterMessageCodec>* ApiGetCodec(void);
 -(nullable SessionResponse *)initClientSession:(SessionRequest*)input error:(FlutterError *_Nullable *_Nonnull)error;
 -(void)getBasicPaymentItems:(nullable PaymentContextRequest *)input completion:(void(^)(PaymentContextResponse *_Nullable, FlutterError *_Nullable))completion;
 -(void)getPaymentProduct:(nullable GetPaymentProductRequest *)input completion:(void(^)(PaymentProduct *_Nullable, FlutterError *_Nullable))completion;
+-(void)preparePaymentRequest:(nullable PaymentRequest *)input completion:(void(^)(PreparedPaymentRequest *_Nullable, FlutterError *_Nullable))completion;
 @end
 
 extern void ApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<Api> _Nullable api);

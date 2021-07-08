@@ -42,8 +42,20 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
 +(PaymentContextResponse*)fromMap:(NSDictionary*)dict;
 -(NSDictionary*)toMap;
 @end
+@interface DisplayHintsPaymentItem ()
++(DisplayHintsPaymentItem*)fromMap:(NSDictionary*)dict;
+-(NSDictionary*)toMap;
+@end
 @interface PaymentProduct ()
 +(PaymentProduct*)fromMap:(NSDictionary*)dict;
+-(NSDictionary*)toMap;
+@end
+@interface PaymentRequest ()
++(PaymentRequest*)fromMap:(NSDictionary*)dict;
+-(NSDictionary*)toMap;
+@end
+@interface PreparedPaymentRequest ()
++(PreparedPaymentRequest*)fromMap:(NSDictionary*)dict;
 -(NSDictionary*)toMap;
 @end
 
@@ -173,9 +185,67 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
 }
 @end
 
+@implementation DisplayHintsPaymentItem
++(DisplayHintsPaymentItem*)fromMap:(NSDictionary*)dict {
+  DisplayHintsPaymentItem* result = [[DisplayHintsPaymentItem alloc] init];
+  result.displayOrder = dict[@"displayOrder"];
+  if ((NSNull *)result.displayOrder == [NSNull null]) {
+    result.displayOrder = nil;
+  }
+  result.label = dict[@"label"];
+  if ((NSNull *)result.label == [NSNull null]) {
+    result.label = nil;
+  }
+  result.logoUrl = dict[@"logoUrl"];
+  if ((NSNull *)result.logoUrl == [NSNull null]) {
+    result.logoUrl = nil;
+  }
+  return result;
+}
+-(NSDictionary*)toMap {
+  return [NSDictionary dictionaryWithObjectsAndKeys:(self.displayOrder ? self.displayOrder : [NSNull null]), @"displayOrder", (self.label ? self.label : [NSNull null]), @"label", (self.logoUrl ? self.logoUrl : [NSNull null]), @"logoUrl", nil];
+}
+@end
+
 @implementation PaymentProduct
 +(PaymentProduct*)fromMap:(NSDictionary*)dict {
   PaymentProduct* result = [[PaymentProduct alloc] init];
+  result.id = dict[@"id"];
+  if ((NSNull *)result.id == [NSNull null]) {
+    result.id = nil;
+  }
+  result.paymentMethod = dict[@"paymentMethod"];
+  if ((NSNull *)result.paymentMethod == [NSNull null]) {
+    result.paymentMethod = nil;
+  }
+  result.paymentProductGroup = dict[@"paymentProductGroup"];
+  if ((NSNull *)result.paymentProductGroup == [NSNull null]) {
+    result.paymentProductGroup = nil;
+  }
+  result.minAmount = dict[@"minAmount"];
+  if ((NSNull *)result.minAmount == [NSNull null]) {
+    result.minAmount = nil;
+  }
+  result.maxAmount = dict[@"maxAmount"];
+  if ((NSNull *)result.maxAmount == [NSNull null]) {
+    result.maxAmount = nil;
+  }
+  result.allowsRecurring = dict[@"allowsRecurring"];
+  if ((NSNull *)result.allowsRecurring == [NSNull null]) {
+    result.allowsRecurring = nil;
+  }
+  result.allowsTokenization = dict[@"allowsTokenization"];
+  if ((NSNull *)result.allowsTokenization == [NSNull null]) {
+    result.allowsTokenization = nil;
+  }
+  result.usesRedirectionTo3rdParty = dict[@"usesRedirectionTo3rdParty"];
+  if ((NSNull *)result.usesRedirectionTo3rdParty == [NSNull null]) {
+    result.usesRedirectionTo3rdParty = nil;
+  }
+  result.displayHints = [DisplayHintsPaymentItem fromMap:dict[@"displayHints"]];
+  if ((NSNull *)result.displayHints == [NSNull null]) {
+    result.displayHints = nil;
+  }
   result.fields = dict[@"fields"];
   if ((NSNull *)result.fields == [NSNull null]) {
     result.fields = nil;
@@ -183,7 +253,51 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
   return result;
 }
 -(NSDictionary*)toMap {
-  return [NSDictionary dictionaryWithObjectsAndKeys:(self.fields ? self.fields : [NSNull null]), @"fields", nil];
+  return [NSDictionary dictionaryWithObjectsAndKeys:(self.id ? self.id : [NSNull null]), @"id", (self.paymentMethod ? self.paymentMethod : [NSNull null]), @"paymentMethod", (self.paymentProductGroup ? self.paymentProductGroup : [NSNull null]), @"paymentProductGroup", (self.minAmount ? self.minAmount : [NSNull null]), @"minAmount", (self.maxAmount ? self.maxAmount : [NSNull null]), @"maxAmount", (self.allowsRecurring ? self.allowsRecurring : [NSNull null]), @"allowsRecurring", (self.allowsTokenization ? self.allowsTokenization : [NSNull null]), @"allowsTokenization", (self.usesRedirectionTo3rdParty ? self.usesRedirectionTo3rdParty : [NSNull null]), @"usesRedirectionTo3rdParty", (self.displayHints ? [self.displayHints toMap] : [NSNull null]), @"displayHints", (self.fields ? self.fields : [NSNull null]), @"fields", nil];
+}
+@end
+
+@implementation PaymentRequest
++(PaymentRequest*)fromMap:(NSDictionary*)dict {
+  PaymentRequest* result = [[PaymentRequest alloc] init];
+  result.values = dict[@"values"];
+  if ((NSNull *)result.values == [NSNull null]) {
+    result.values = nil;
+  }
+  result.paymentProduct = [PaymentProduct fromMap:dict[@"paymentProduct"]];
+  if ((NSNull *)result.paymentProduct == [NSNull null]) {
+    result.paymentProduct = nil;
+  }
+  result.tokenize = dict[@"tokenize"];
+  if ((NSNull *)result.tokenize == [NSNull null]) {
+    result.tokenize = nil;
+  }
+  result.sessionId = dict[@"sessionId"];
+  if ((NSNull *)result.sessionId == [NSNull null]) {
+    result.sessionId = nil;
+  }
+  return result;
+}
+-(NSDictionary*)toMap {
+  return [NSDictionary dictionaryWithObjectsAndKeys:(self.values ? self.values : [NSNull null]), @"values", (self.paymentProduct ? [self.paymentProduct toMap] : [NSNull null]), @"paymentProduct", (self.tokenize ? self.tokenize : [NSNull null]), @"tokenize", (self.sessionId ? self.sessionId : [NSNull null]), @"sessionId", nil];
+}
+@end
+
+@implementation PreparedPaymentRequest
++(PreparedPaymentRequest*)fromMap:(NSDictionary*)dict {
+  PreparedPaymentRequest* result = [[PreparedPaymentRequest alloc] init];
+  result.encryptedFields = dict[@"encryptedFields"];
+  if ((NSNull *)result.encryptedFields == [NSNull null]) {
+    result.encryptedFields = nil;
+  }
+  result.encodedClientMetaInfo = dict[@"encodedClientMetaInfo"];
+  if ((NSNull *)result.encodedClientMetaInfo == [NSNull null]) {
+    result.encodedClientMetaInfo = nil;
+  }
+  return result;
+}
+-(NSDictionary*)toMap {
+  return [NSDictionary dictionaryWithObjectsAndKeys:(self.encryptedFields ? self.encryptedFields : [NSNull null]), @"encryptedFields", (self.encodedClientMetaInfo ? self.encodedClientMetaInfo : [NSNull null]), @"encodedClientMetaInfo", nil];
 }
 @end
 
@@ -206,9 +320,15 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
       return [PaymentProduct fromMap:[self readValue]];
     
     case 123:     
-      return [SessionRequest fromMap:[self readValue]];
+      return [PaymentRequest fromMap:[self readValue]];
     
     case 122:     
+      return [PreparedPaymentRequest fromMap:[self readValue]];
+    
+    case 121:     
+      return [SessionRequest fromMap:[self readValue]];
+    
+    case 120:     
       return [SessionResponse fromMap:[self readValue]];
     
     default:    
@@ -239,12 +359,20 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
     [self writeByte:124];
     [self writeValue:[value toMap]];
   }
-  else if ([value isKindOfClass:[SessionRequest class]]) {
+  else if ([value isKindOfClass:[PaymentRequest class]]) {
     [self writeByte:123];
     [self writeValue:[value toMap]];
   }
-  else if ([value isKindOfClass:[SessionResponse class]]) {
+  else if ([value isKindOfClass:[PreparedPaymentRequest class]]) {
     [self writeByte:122];
+    [self writeValue:[value toMap]];
+  }
+  else if ([value isKindOfClass:[SessionRequest class]]) {
+    [self writeByte:121];
+    [self writeValue:[value toMap]];
+  }
+  else if ([value isKindOfClass:[SessionResponse class]]) {
+    [self writeByte:120];
     [self writeValue:[value toMap]];
   }
   else {
@@ -322,6 +450,24 @@ void ApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<Api> api) {
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
         GetPaymentProductRequest *input = [GetPaymentProductRequest fromMap:message];
         [api getPaymentProduct:input completion:^(PaymentProduct *_Nullable output, FlutterError *_Nullable error) {
+          callback(wrapResult([output toMap], error));
+        }];
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [FlutterBasicMessageChannel
+        messageChannelWithName:@"dev.flutter.pigeon.Api.preparePaymentRequest"
+        binaryMessenger:binaryMessenger
+        codec:ApiGetCodec()];
+    if (api) {
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        PaymentRequest *input = [PaymentRequest fromMap:message];
+        [api preparePaymentRequest:input completion:^(PreparedPaymentRequest *_Nullable output, FlutterError *_Nullable error) {
           callback(wrapResult([output toMap], error));
         }];
       }];

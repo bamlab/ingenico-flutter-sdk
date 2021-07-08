@@ -53,7 +53,17 @@ class DisplayHintsPaymentItem {
   late String logoUrl;
 }
 
+/// Cannot extend in Pigeon Classes
 class PaymentProduct {
+  late String id;
+  late String? paymentMethod;
+  late String? paymentProductGroup;
+  late double? minAmount;
+  late double? maxAmount;
+  late bool? allowsRecurring;
+  late bool? allowsTokenization;
+  late bool? usesRedirectionTo3rdParty;
+  late DisplayHintsPaymentItem displayHints;
   late List<PaymentProductField> fields;
 }
 
@@ -164,6 +174,18 @@ class AbstractValidationRule {
   late ValidationType type;
 }
 
+class PaymentRequest {
+  late Map<String, String> values;
+  late PaymentProduct paymentProduct;
+  late bool tokenize;
+  late String sessionId;
+}
+
+class PreparedPaymentRequest {
+  late String encryptedFields;
+  late String encodedClientMetaInfo;
+}
+
 @HostApi()
 abstract class Api {
   SessionResponse initClientSession(SessionRequest request);
@@ -173,4 +195,7 @@ abstract class Api {
 
   @async
   PaymentProduct getPaymentProduct(GetPaymentProductRequest request);
+
+  @async
+  PreparedPaymentRequest preparePaymentRequest(PaymentRequest request);
 }
