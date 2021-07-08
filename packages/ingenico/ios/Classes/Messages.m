@@ -34,8 +34,16 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
 +(PaymentContextRequest*)fromMap:(NSDictionary*)dict;
 -(NSDictionary*)toMap;
 @end
+@interface GetPaymentProductRequest ()
++(GetPaymentProductRequest*)fromMap:(NSDictionary*)dict;
+-(NSDictionary*)toMap;
+@end
 @interface PaymentContextResponse ()
 +(PaymentContextResponse*)fromMap:(NSDictionary*)dict;
+-(NSDictionary*)toMap;
+@end
+@interface PaymentProduct ()
++(PaymentProduct*)fromMap:(NSDictionary*)dict;
 -(NSDictionary*)toMap;
 @end
 
@@ -117,6 +125,40 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
 }
 @end
 
+@implementation GetPaymentProductRequest
++(GetPaymentProductRequest*)fromMap:(NSDictionary*)dict {
+  GetPaymentProductRequest* result = [[GetPaymentProductRequest alloc] init];
+  result.sessionId = dict[@"sessionId"];
+  if ((NSNull *)result.sessionId == [NSNull null]) {
+    result.sessionId = nil;
+  }
+  result.paymentProductId = dict[@"paymentProductId"];
+  if ((NSNull *)result.paymentProductId == [NSNull null]) {
+    result.paymentProductId = nil;
+  }
+  result.amountValue = dict[@"amountValue"];
+  if ((NSNull *)result.amountValue == [NSNull null]) {
+    result.amountValue = nil;
+  }
+  result.currencyCode = dict[@"currencyCode"];
+  if ((NSNull *)result.currencyCode == [NSNull null]) {
+    result.currencyCode = nil;
+  }
+  result.countryCode = dict[@"countryCode"];
+  if ((NSNull *)result.countryCode == [NSNull null]) {
+    result.countryCode = nil;
+  }
+  result.isRecurring = dict[@"isRecurring"];
+  if ((NSNull *)result.isRecurring == [NSNull null]) {
+    result.isRecurring = nil;
+  }
+  return result;
+}
+-(NSDictionary*)toMap {
+  return [NSDictionary dictionaryWithObjectsAndKeys:(self.sessionId ? self.sessionId : [NSNull null]), @"sessionId", (self.paymentProductId ? self.paymentProductId : [NSNull null]), @"paymentProductId", (self.amountValue ? self.amountValue : [NSNull null]), @"amountValue", (self.currencyCode ? self.currencyCode : [NSNull null]), @"currencyCode", (self.countryCode ? self.countryCode : [NSNull null]), @"countryCode", (self.isRecurring ? self.isRecurring : [NSNull null]), @"isRecurring", nil];
+}
+@end
+
 @implementation PaymentContextResponse
 +(PaymentContextResponse*)fromMap:(NSDictionary*)dict {
   PaymentContextResponse* result = [[PaymentContextResponse alloc] init];
@@ -131,6 +173,20 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
 }
 @end
 
+@implementation PaymentProduct
++(PaymentProduct*)fromMap:(NSDictionary*)dict {
+  PaymentProduct* result = [[PaymentProduct alloc] init];
+  result.fields = dict[@"fields"];
+  if ((NSNull *)result.fields == [NSNull null]) {
+    result.fields = nil;
+  }
+  return result;
+}
+-(NSDictionary*)toMap {
+  return [NSDictionary dictionaryWithObjectsAndKeys:(self.fields ? self.fields : [NSNull null]), @"fields", nil];
+}
+@end
+
 @interface ApiCodecReader : FlutterStandardReader
 @end
 @implementation ApiCodecReader
@@ -138,15 +194,21 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
 {
   switch (type) {
     case 127:     
-      return [PaymentContextRequest fromMap:[self readValue]];
+      return [GetPaymentProductRequest fromMap:[self readValue]];
     
     case 126:     
-      return [PaymentContextResponse fromMap:[self readValue]];
+      return [PaymentContextRequest fromMap:[self readValue]];
     
     case 125:     
-      return [SessionRequest fromMap:[self readValue]];
+      return [PaymentContextResponse fromMap:[self readValue]];
     
     case 124:     
+      return [PaymentProduct fromMap:[self readValue]];
+    
+    case 123:     
+      return [SessionRequest fromMap:[self readValue]];
+    
+    case 122:     
       return [SessionResponse fromMap:[self readValue]];
     
     default:    
@@ -161,20 +223,28 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
 @implementation ApiCodecWriter
 - (void)writeValue:(id)value 
 {
-  if ([value isKindOfClass:[PaymentContextRequest class]]) {
+  if ([value isKindOfClass:[GetPaymentProductRequest class]]) {
     [self writeByte:127];
     [self writeValue:[value toMap]];
   }
-  else if ([value isKindOfClass:[PaymentContextResponse class]]) {
+  else if ([value isKindOfClass:[PaymentContextRequest class]]) {
     [self writeByte:126];
     [self writeValue:[value toMap]];
   }
-  else if ([value isKindOfClass:[SessionRequest class]]) {
+  else if ([value isKindOfClass:[PaymentContextResponse class]]) {
     [self writeByte:125];
     [self writeValue:[value toMap]];
   }
-  else if ([value isKindOfClass:[SessionResponse class]]) {
+  else if ([value isKindOfClass:[PaymentProduct class]]) {
     [self writeByte:124];
+    [self writeValue:[value toMap]];
+  }
+  else if ([value isKindOfClass:[SessionRequest class]]) {
+    [self writeByte:123];
+    [self writeValue:[value toMap]];
+  }
+  else if ([value isKindOfClass:[SessionResponse class]]) {
+    [self writeByte:122];
     [self writeValue:[value toMap]];
   }
   else {
@@ -234,6 +304,24 @@ void ApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<Api> api) {
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
         PaymentContextRequest *input = [PaymentContextRequest fromMap:message];
         [api getBasicPaymentItems:input completion:^(PaymentContextResponse *_Nullable output, FlutterError *_Nullable error) {
+          callback(wrapResult([output toMap], error));
+        }];
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [FlutterBasicMessageChannel
+        messageChannelWithName:@"dev.flutter.pigeon.Api.getPaymentProduct"
+        binaryMessenger:binaryMessenger
+        codec:ApiGetCodec()];
+    if (api) {
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        GetPaymentProductRequest *input = [GetPaymentProductRequest fromMap:message];
+        [api getPaymentProduct:input completion:^(PaymentProduct *_Nullable output, FlutterError *_Nullable error) {
           callback(wrapResult([output toMap], error));
         }];
       }];

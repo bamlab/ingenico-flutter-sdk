@@ -83,6 +83,37 @@ class PaymentContextRequest {
   }
 }
 
+class GetPaymentProductRequest {
+  String? sessionId;
+  String? paymentProductId;
+  double? amountValue;
+  String? currencyCode;
+  String? countryCode;
+  bool? isRecurring;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['sessionId'] = sessionId;
+    pigeonMap['paymentProductId'] = paymentProductId;
+    pigeonMap['amountValue'] = amountValue;
+    pigeonMap['currencyCode'] = currencyCode;
+    pigeonMap['countryCode'] = countryCode;
+    pigeonMap['isRecurring'] = isRecurring;
+    return pigeonMap;
+  }
+
+  static GetPaymentProductRequest decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return GetPaymentProductRequest()
+      ..sessionId = pigeonMap['sessionId'] as String?
+      ..paymentProductId = pigeonMap['paymentProductId'] as String?
+      ..amountValue = pigeonMap['amountValue'] as double?
+      ..currencyCode = pigeonMap['currencyCode'] as String?
+      ..countryCode = pigeonMap['countryCode'] as String?
+      ..isRecurring = pigeonMap['isRecurring'] as bool?;
+  }
+}
+
 class PaymentContextResponse {
   List<Object?>? basicPaymentProduct;
 
@@ -99,24 +130,48 @@ class PaymentContextResponse {
   }
 }
 
+class PaymentProduct {
+  List<Object?>? fields;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['fields'] = fields;
+    return pigeonMap;
+  }
+
+  static PaymentProduct decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return PaymentProduct()
+      ..fields = pigeonMap['fields'] as List<Object?>?;
+  }
+}
+
 class _ApiCodec extends StandardMessageCodec {
   const _ApiCodec();
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
-    if (value is PaymentContextRequest) {
+    if (value is GetPaymentProductRequest) {
       buffer.putUint8(127);
       writeValue(buffer, value.encode());
     }
-    else if (value is PaymentContextResponse) {
+    else if (value is PaymentContextRequest) {
       buffer.putUint8(126);
       writeValue(buffer, value.encode());
     }
-    else if (value is SessionRequest) {
+    else if (value is PaymentContextResponse) {
       buffer.putUint8(125);
       writeValue(buffer, value.encode());
     }
-    else if (value is SessionResponse) {
+    else if (value is PaymentProduct) {
       buffer.putUint8(124);
+      writeValue(buffer, value.encode());
+    }
+    else if (value is SessionRequest) {
+      buffer.putUint8(123);
+      writeValue(buffer, value.encode());
+    }
+    else if (value is SessionResponse) {
+      buffer.putUint8(122);
       writeValue(buffer, value.encode());
     }
     else {
@@ -127,15 +182,21 @@ class _ApiCodec extends StandardMessageCodec {
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
       case 127:       
-        return PaymentContextRequest.decode(readValue(buffer)!);
+        return GetPaymentProductRequest.decode(readValue(buffer)!);
       
       case 126:       
-        return PaymentContextResponse.decode(readValue(buffer)!);
+        return PaymentContextRequest.decode(readValue(buffer)!);
       
       case 125:       
-        return SessionRequest.decode(readValue(buffer)!);
+        return PaymentContextResponse.decode(readValue(buffer)!);
       
       case 124:       
+        return PaymentProduct.decode(readValue(buffer)!);
+      
+      case 123:       
+        return SessionRequest.decode(readValue(buffer)!);
+      
+      case 122:       
         return SessionResponse.decode(readValue(buffer)!);
       
       default:      
@@ -200,6 +261,30 @@ class Api {
       );
     } else {
       return PaymentContextResponse.decode(replyMap['result']!);
+    }
+  }
+
+  Future<PaymentProduct> getPaymentProduct(GetPaymentProductRequest arg) async {
+    final Object encoded = arg.encode();
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.Api.getPaymentProduct', codec, binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(encoded) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+        details: null,
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else {
+      return PaymentProduct.decode(replyMap['result']!);
     }
   }
 }

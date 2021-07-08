@@ -11,7 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 @class SessionRequest;
 @class SessionResponse;
 @class PaymentContextRequest;
+@class GetPaymentProductRequest;
 @class PaymentContextResponse;
+@class PaymentProduct;
 
 @interface SessionRequest : NSObject
 @property(nonatomic, copy, nullable) NSString * clientSessionId;
@@ -34,8 +36,21 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) NSNumber * isRecurring;
 @end
 
+@interface GetPaymentProductRequest : NSObject
+@property(nonatomic, copy, nullable) NSString * sessionId;
+@property(nonatomic, copy, nullable) NSString * paymentProductId;
+@property(nonatomic, strong, nullable) NSNumber * amountValue;
+@property(nonatomic, copy, nullable) NSString * currencyCode;
+@property(nonatomic, copy, nullable) NSString * countryCode;
+@property(nonatomic, strong, nullable) NSNumber * isRecurring;
+@end
+
 @interface PaymentContextResponse : NSObject
 @property(nonatomic, strong, nullable) NSArray * basicPaymentProduct;
+@end
+
+@interface PaymentProduct : NSObject
+@property(nonatomic, strong, nullable) NSArray * fields;
 @end
 
 /// The codec used by Api.
@@ -44,6 +59,7 @@ NSObject<FlutterMessageCodec>* ApiGetCodec(void);
 @protocol Api
 -(nullable SessionResponse *)initClientSession:(SessionRequest*)input error:(FlutterError *_Nullable *_Nonnull)error;
 -(void)getBasicPaymentItems:(nullable PaymentContextRequest *)input completion:(void(^)(PaymentContextResponse *_Nullable, FlutterError *_Nullable))completion;
+-(void)getPaymentProduct:(nullable GetPaymentProductRequest *)input completion:(void(^)(PaymentProduct *_Nullable, FlutterError *_Nullable))completion;
 @end
 
 extern void ApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<Api> _Nullable api);

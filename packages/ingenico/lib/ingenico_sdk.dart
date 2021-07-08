@@ -83,4 +83,23 @@ class Session {
 
     return response.basicPaymentProduct as List<BasicPaymentProduct>;
   }
+
+  Future<PaymentProduct> getPaymentProduct(
+      {required String paymentProductId,
+      required double amountValue,
+      required String currencyCode,
+      required String countryCode,
+      required bool isRecurring}) async {
+    final paymentProductRequest = GetPaymentProductRequest();
+    paymentProductRequest.paymentProductId = paymentProductId;
+    paymentProductRequest.amountValue = amountValue;
+    paymentProductRequest.currencyCode = currencyCode;
+    paymentProductRequest.countryCode = countryCode;
+    paymentProductRequest.isRecurring = isRecurring;
+    paymentProductRequest.sessionId = sessionId;
+
+    final response = await _api.getPaymentProduct(paymentProductRequest);
+
+    return response;
+  }
 }
