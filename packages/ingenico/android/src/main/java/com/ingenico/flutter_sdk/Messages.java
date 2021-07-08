@@ -5,7 +5,10 @@ package com.ingenico.flutter_sdk;
 
 import io.flutter.plugin.common.BasicMessageChannel;
 import io.flutter.plugin.common.BinaryMessenger;
+import io.flutter.plugin.common.MessageCodec;
 import io.flutter.plugin.common.StandardMessageCodec;
+import java.io.ByteArrayOutputStream;
+import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -69,7 +72,7 @@ public class Messages {
   }
 
   /** Generated class from Pigeon that represents data sent in messages. */
-  public static class Session {
+  public static class SessionResponse {
     private String sessionId;
     public String getSessionId() { return sessionId; }
     public void setSessionId(String setterArg) { this.sessionId = setterArg; }
@@ -79,8 +82,8 @@ public class Messages {
       toMapResult.put("sessionId", sessionId);
       return toMapResult;
     }
-    static Session fromMap(Map<String, Object> map) {
-      Session fromMapResult = new Session();
+    static SessionResponse fromMap(Map<String, Object> map) {
+      SessionResponse fromMapResult = new SessionResponse();
       Object sessionId = map.get("sessionId");
       fromMapResult.sessionId = (String)sessionId;
       return fromMapResult;
@@ -89,6 +92,10 @@ public class Messages {
 
   /** Generated class from Pigeon that represents data sent in messages. */
   public static class PaymentContextRequest {
+    private String sessionId;
+    public String getSessionId() { return sessionId; }
+    public void setSessionId(String setterArg) { this.sessionId = setterArg; }
+
     private Double amountValue;
     public Double getAmountValue() { return amountValue; }
     public void setAmountValue(Double setterArg) { this.amountValue = setterArg; }
@@ -107,6 +114,7 @@ public class Messages {
 
     Map<String, Object> toMap() {
       Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("sessionId", sessionId);
       toMapResult.put("amountValue", amountValue);
       toMapResult.put("currencyCode", currencyCode);
       toMapResult.put("countryCode", countryCode);
@@ -115,6 +123,8 @@ public class Messages {
     }
     static PaymentContextRequest fromMap(Map<String, Object> map) {
       PaymentContextRequest fromMapResult = new PaymentContextRequest();
+      Object sessionId = map.get("sessionId");
+      fromMapResult.sessionId = (String)sessionId;
       Object amountValue = map.get("amountValue");
       fromMapResult.amountValue = (Double)amountValue;
       Object currencyCode = map.get("currencyCode");
@@ -127,23 +137,97 @@ public class Messages {
     }
   }
 
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class PaymentContextResponse {
+    private List<Object> basicPaymentProduct;
+    public List<Object> getBasicPaymentProduct() { return basicPaymentProduct; }
+    public void setBasicPaymentProduct(List<Object> setterArg) { this.basicPaymentProduct = setterArg; }
+
+    Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("basicPaymentProduct", basicPaymentProduct);
+      return toMapResult;
+    }
+    static PaymentContextResponse fromMap(Map<String, Object> map) {
+      PaymentContextResponse fromMapResult = new PaymentContextResponse();
+      Object basicPaymentProduct = map.get("basicPaymentProduct");
+      fromMapResult.basicPaymentProduct = (List<Object>)basicPaymentProduct;
+      return fromMapResult;
+    }
+  }
+
+  public interface Result<T> {
+    void success(T result);
+  }
+  private static class ApiCodec extends StandardMessageCodec {
+    public static final ApiCodec INSTANCE = new ApiCodec();
+    private ApiCodec() {}
+    @Override
+    protected Object readValueOfType(byte type, ByteBuffer buffer) {
+      switch (type) {
+        case 127:         
+          return PaymentContextRequest.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case 126:         
+          return PaymentContextResponse.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case 125:         
+          return SessionRequest.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case 124:         
+          return SessionResponse.fromMap((Map<String, Object>) readValue(buffer));
+        
+        default:        
+          return super.readValueOfType(type, buffer);
+        
+      }
+    }
+    @Override
+    protected void writeValue(ByteArrayOutputStream stream, Object value)     {
+      if (value instanceof PaymentContextRequest) {
+        stream.write(127);
+        writeValue(stream, ((PaymentContextRequest) value).toMap());
+      }
+      else if (value instanceof PaymentContextResponse) {
+        stream.write(126);
+        writeValue(stream, ((PaymentContextResponse) value).toMap());
+      }
+      else if (value instanceof SessionRequest) {
+        stream.write(125);
+        writeValue(stream, ((SessionRequest) value).toMap());
+      }
+      else if (value instanceof SessionResponse) {
+        stream.write(124);
+        writeValue(stream, ((SessionResponse) value).toMap());
+      }
+      else {
+        super.writeValue(stream, value);
+      }
+    }
+  }
+
   /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
   public interface Api {
-    Session initClientSession(SessionRequest arg);
-    List<BasicPaymentItem> getBasicPaymentItems(PaymentContextRequest arg);
+    SessionResponse initClientSession(SessionRequest arg);
+    void getBasicPaymentItems(PaymentContextRequest arg, Result<PaymentContextResponse> result);
+
+    /** The codec used by Api. */
+    static MessageCodec<Object> getCodec() {
+      return ApiCodec.INSTANCE;
+    }
 
     /** Sets up an instance of `Api` to handle messages through the `binaryMessenger`. */
     static void setup(BinaryMessenger binaryMessenger, Api api) {
       {
         BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.Api.initClientSession", new StandardMessageCodec());
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.Api.initClientSession", getCodec());
         if (api != null) {
           channel.setMessageHandler((message, reply) -> {
             Map<String, Object> wrapped = new HashMap<>();
             try {
               @SuppressWarnings("ConstantConditions")
               SessionRequest input = SessionRequest.fromMap((Map<String, Object>)message);
-              Session output = api.initClientSession(input);
+              SessionResponse output = api.initClientSession(input);
               wrapped.put("result", output.toMap());
             }
             catch (Error | RuntimeException exception) {
@@ -157,20 +241,19 @@ public class Messages {
       }
       {
         BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.Api.getBasicPaymentItems", new StandardMessageCodec());
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.Api.getBasicPaymentItems", getCodec());
         if (api != null) {
           channel.setMessageHandler((message, reply) -> {
             Map<String, Object> wrapped = new HashMap<>();
             try {
               @SuppressWarnings("ConstantConditions")
               PaymentContextRequest input = PaymentContextRequest.fromMap((Map<String, Object>)message);
-              List<BasicPaymentItem> output = api.getBasicPaymentItems(input);
-              wrapped.put("result", output.toMap());
+              api.getBasicPaymentItems(input, result -> { wrapped.put("result", result.toMap()); reply.reply(wrapped); });
             }
             catch (Error | RuntimeException exception) {
               wrapped.put("error", wrapError(exception));
+              reply.reply(wrapped);
             }
-            reply.reply(wrapped);
           });
         } else {
           channel.setMessageHandler(null);

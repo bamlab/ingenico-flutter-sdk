@@ -9,19 +9,32 @@ class SessionRequest {
   late String applicationIdentifier;
 }
 
-class Session {
+class SessionResponse {
   late String sessionId;
 }
 
 class PaymentContextRequest {
+  late String sessionId;
   late double amountValue;
   late String currencyCode;
   late String countryCode;
   late bool isRecurring;
 }
 
-class BasicPaymentItem {
+class PaymentContextResponse {
+  late List<BasicPaymentProduct> basicPaymentProduct;
+}
+
+class BasicPaymentProduct {
   late String id;
+  late String? paymentMethod;
+  late String? paymentProductGroup;
+  late double? minAmount;
+  late double? maxAmount;
+  late bool? allowsRecurring;
+  late bool? allowsTokenization;
+  late bool? usesRedirectionTo3rdParty;
+
   late DisplayHintsPaymentItem displayHints;
 }
 
@@ -33,7 +46,8 @@ class DisplayHintsPaymentItem {
 
 @HostApi()
 abstract class Api {
-  Session initClientSession(SessionRequest request);
+  SessionResponse initClientSession(SessionRequest request);
 
-  List<BasicPaymentItem> getBasicPaymentItems(PaymentContextRequest request);
+  @async
+  PaymentContextResponse getBasicPaymentItems(PaymentContextRequest request);
 }

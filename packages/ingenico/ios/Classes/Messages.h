@@ -2,14 +2,16 @@
 // See also: https://pub.dev/packages/pigeon
 #import <Foundation/Foundation.h>
 @protocol FlutterBinaryMessenger;
+@protocol FlutterMessageCodec;
 @class FlutterError;
 @class FlutterStandardTypedData;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class SessionRequest;
-@class Session;
+@class SessionResponse;
 @class PaymentContextRequest;
+@class PaymentContextResponse;
 
 @interface SessionRequest : NSObject
 @property(nonatomic, copy, nullable) NSString * clientSessionId;
@@ -20,20 +22,28 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy, nullable) NSString * applicationIdentifier;
 @end
 
-@interface Session : NSObject
+@interface SessionResponse : NSObject
 @property(nonatomic, copy, nullable) NSString * sessionId;
 @end
 
 @interface PaymentContextRequest : NSObject
+@property(nonatomic, copy, nullable) NSString * sessionId;
 @property(nonatomic, strong, nullable) NSNumber * amountValue;
 @property(nonatomic, copy, nullable) NSString * currencyCode;
 @property(nonatomic, copy, nullable) NSString * countryCode;
 @property(nonatomic, strong, nullable) NSNumber * isRecurring;
 @end
 
+@interface PaymentContextResponse : NSObject
+@property(nonatomic, strong, nullable) NSArray * basicPaymentProduct;
+@end
+
+/// The codec used by Api.
+NSObject<FlutterMessageCodec>* ApiGetCodec(void);
+
 @protocol Api
--(nullable Session *)initClientSession:(SessionRequest*)input error:(FlutterError *_Nullable *_Nonnull)error;
--(nullable List<BasicPaymentItem> *)getBasicPaymentItems:(PaymentContextRequest*)input error:(FlutterError *_Nullable *_Nonnull)error;
+-(nullable SessionResponse *)initClientSession:(SessionRequest*)input error:(FlutterError *_Nullable *_Nonnull)error;
+-(void)getBasicPaymentItems:(nullable PaymentContextRequest *)input completion:(void(^)(PaymentContextResponse *_Nullable, FlutterError *_Nullable))completion;
 @end
 
 extern void ApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<Api> _Nullable api);

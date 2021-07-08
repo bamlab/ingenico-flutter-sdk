@@ -26,12 +26,16 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
 +(SessionRequest*)fromMap:(NSDictionary*)dict;
 -(NSDictionary*)toMap;
 @end
-@interface Session ()
-+(Session*)fromMap:(NSDictionary*)dict;
+@interface SessionResponse ()
++(SessionResponse*)fromMap:(NSDictionary*)dict;
 -(NSDictionary*)toMap;
 @end
 @interface PaymentContextRequest ()
 +(PaymentContextRequest*)fromMap:(NSDictionary*)dict;
+-(NSDictionary*)toMap;
+@end
+@interface PaymentContextResponse ()
++(PaymentContextResponse*)fromMap:(NSDictionary*)dict;
 -(NSDictionary*)toMap;
 @end
 
@@ -69,9 +73,9 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
 }
 @end
 
-@implementation Session
-+(Session*)fromMap:(NSDictionary*)dict {
-  Session* result = [[Session alloc] init];
+@implementation SessionResponse
++(SessionResponse*)fromMap:(NSDictionary*)dict {
+  SessionResponse* result = [[SessionResponse alloc] init];
   result.sessionId = dict[@"sessionId"];
   if ((NSNull *)result.sessionId == [NSNull null]) {
     result.sessionId = nil;
@@ -86,6 +90,10 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
 @implementation PaymentContextRequest
 +(PaymentContextRequest*)fromMap:(NSDictionary*)dict {
   PaymentContextRequest* result = [[PaymentContextRequest alloc] init];
+  result.sessionId = dict[@"sessionId"];
+  if ((NSNull *)result.sessionId == [NSNull null]) {
+    result.sessionId = nil;
+  }
   result.amountValue = dict[@"amountValue"];
   if ((NSNull *)result.amountValue == [NSNull null]) {
     result.amountValue = nil;
@@ -105,21 +113,110 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
   return result;
 }
 -(NSDictionary*)toMap {
-  return [NSDictionary dictionaryWithObjectsAndKeys:(self.amountValue ? self.amountValue : [NSNull null]), @"amountValue", (self.currencyCode ? self.currencyCode : [NSNull null]), @"currencyCode", (self.countryCode ? self.countryCode : [NSNull null]), @"countryCode", (self.isRecurring ? self.isRecurring : [NSNull null]), @"isRecurring", nil];
+  return [NSDictionary dictionaryWithObjectsAndKeys:(self.sessionId ? self.sessionId : [NSNull null]), @"sessionId", (self.amountValue ? self.amountValue : [NSNull null]), @"amountValue", (self.currencyCode ? self.currencyCode : [NSNull null]), @"currencyCode", (self.countryCode ? self.countryCode : [NSNull null]), @"countryCode", (self.isRecurring ? self.isRecurring : [NSNull null]), @"isRecurring", nil];
 }
 @end
+
+@implementation PaymentContextResponse
++(PaymentContextResponse*)fromMap:(NSDictionary*)dict {
+  PaymentContextResponse* result = [[PaymentContextResponse alloc] init];
+  result.basicPaymentProduct = dict[@"basicPaymentProduct"];
+  if ((NSNull *)result.basicPaymentProduct == [NSNull null]) {
+    result.basicPaymentProduct = nil;
+  }
+  return result;
+}
+-(NSDictionary*)toMap {
+  return [NSDictionary dictionaryWithObjectsAndKeys:(self.basicPaymentProduct ? self.basicPaymentProduct : [NSNull null]), @"basicPaymentProduct", nil];
+}
+@end
+
+@interface ApiCodecReader : FlutterStandardReader
+@end
+@implementation ApiCodecReader
+- (nullable id)readValueOfType:(UInt8)type 
+{
+  switch (type) {
+    case 127:     
+      return [PaymentContextRequest fromMap:[self readValue]];
+    
+    case 126:     
+      return [PaymentContextResponse fromMap:[self readValue]];
+    
+    case 125:     
+      return [SessionRequest fromMap:[self readValue]];
+    
+    case 124:     
+      return [SessionResponse fromMap:[self readValue]];
+    
+    default:    
+      return [super readValueOfType:type];
+    
+  }
+}
+@end
+
+@interface ApiCodecWriter : FlutterStandardWriter
+@end
+@implementation ApiCodecWriter
+- (void)writeValue:(id)value 
+{
+  if ([value isKindOfClass:[PaymentContextRequest class]]) {
+    [self writeByte:127];
+    [self writeValue:[value toMap]];
+  }
+  else if ([value isKindOfClass:[PaymentContextResponse class]]) {
+    [self writeByte:126];
+    [self writeValue:[value toMap]];
+  }
+  else if ([value isKindOfClass:[SessionRequest class]]) {
+    [self writeByte:125];
+    [self writeValue:[value toMap]];
+  }
+  else if ([value isKindOfClass:[SessionResponse class]]) {
+    [self writeByte:124];
+    [self writeValue:[value toMap]];
+  }
+  else {
+    [super writeValue:value];
+  }
+}
+@end
+
+@interface ApiCodecReaderWriter : FlutterStandardReaderWriter
+@end
+@implementation ApiCodecReaderWriter
+- (FlutterStandardWriter*)writerWithData:(NSMutableData*)data {
+  return [[ApiCodecWriter alloc] initWithData:data];
+}
+- (FlutterStandardReader*)readerWithData:(NSData*)data {
+  return [[ApiCodecReader alloc] initWithData:data];
+}
+@end
+
+NSObject<FlutterMessageCodec>* ApiGetCodec() {
+  static dispatch_once_t s_pred = 0;
+  static FlutterStandardMessageCodec* s_sharedObject = nil;
+  dispatch_once(&s_pred, ^{
+    ApiCodecReaderWriter* readerWriter = [[ApiCodecReaderWriter alloc] init];
+    s_sharedObject = [FlutterStandardMessageCodec codecWithReaderWriter:readerWriter];
+  });
+  return s_sharedObject;
+}
+
 
 void ApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<Api> api) {
   {
     FlutterBasicMessageChannel *channel =
       [FlutterBasicMessageChannel
         messageChannelWithName:@"dev.flutter.pigeon.Api.initClientSession"
-        binaryMessenger:binaryMessenger];
+        binaryMessenger:binaryMessenger
+        codec:ApiGetCodec()];
     if (api) {
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
         SessionRequest *input = [SessionRequest fromMap:message];
         FlutterError *error;
-        Session *output = [api initClientSession:input error:&error];
+        SessionResponse *output = [api initClientSession:input error:&error];
         callback(wrapResult([output toMap], error));
       }];
     }
@@ -131,13 +228,14 @@ void ApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<Api> api) {
     FlutterBasicMessageChannel *channel =
       [FlutterBasicMessageChannel
         messageChannelWithName:@"dev.flutter.pigeon.Api.getBasicPaymentItems"
-        binaryMessenger:binaryMessenger];
+        binaryMessenger:binaryMessenger
+        codec:ApiGetCodec()];
     if (api) {
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
         PaymentContextRequest *input = [PaymentContextRequest fromMap:message];
-        FlutterError *error;
-        List<BasicPaymentItem> *output = [api getBasicPaymentItems:input error:&error];
-        callback(wrapResult([output toMap], error));
+        [api getBasicPaymentItems:input completion:^(PaymentContextResponse *_Nullable output, FlutterError *_Nullable error) {
+          callback(wrapResult([output toMap], error));
+        }];
       }];
     }
     else {
