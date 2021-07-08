@@ -1,3 +1,3 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.example.ingenico_sdk">
+  package="com.ingenico.flutter_sdk">
 </manifest>

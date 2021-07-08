@@ -1,4 +1,4 @@
-group 'com.example.ingenico_sdk'
+group 'com.ingenico.flutter_sdk'
 version '1.0-SNAPSHOT'
 
 buildscript {
@@ -31,10 +31,18 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 24
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.ingenico.direct:direct-sdk-client-android:1.0.1'
 }
