@@ -199,14 +199,14 @@ class PaymentProduct {
 
 class PaymentRequest {
   Map<Object?, Object?>? values;
-  PaymentProduct? paymentProduct;
+  String? paymentProductId;
   bool? tokenize;
   String? sessionId;
 
   Object encode() {
     final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
     pigeonMap['values'] = values;
-    pigeonMap['paymentProduct'] = paymentProduct == null ? null : paymentProduct!.encode();
+    pigeonMap['paymentProductId'] = paymentProductId;
     pigeonMap['tokenize'] = tokenize;
     pigeonMap['sessionId'] = sessionId;
     return pigeonMap;
@@ -216,9 +216,7 @@ class PaymentRequest {
     final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
     return PaymentRequest()
       ..values = pigeonMap['values'] as Map<Object?, Object?>?
-      ..paymentProduct = pigeonMap['paymentProduct'] != null
-          ? PaymentProduct.decode(pigeonMap['paymentProduct']!)
-          : null
+      ..paymentProductId = pigeonMap['paymentProductId'] as String?
       ..tokenize = pigeonMap['tokenize'] as bool?
       ..sessionId = pigeonMap['sessionId'] as String?;
   }

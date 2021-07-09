@@ -264,9 +264,9 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
   if ((NSNull *)result.values == [NSNull null]) {
     result.values = nil;
   }
-  result.paymentProduct = [PaymentProduct fromMap:dict[@"paymentProduct"]];
-  if ((NSNull *)result.paymentProduct == [NSNull null]) {
-    result.paymentProduct = nil;
+  result.paymentProductId = dict[@"paymentProductId"];
+  if ((NSNull *)result.paymentProductId == [NSNull null]) {
+    result.paymentProductId = nil;
   }
   result.tokenize = dict[@"tokenize"];
   if ((NSNull *)result.tokenize == [NSNull null]) {
@@ -279,7 +279,7 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
   return result;
 }
 -(NSDictionary*)toMap {
-  return [NSDictionary dictionaryWithObjectsAndKeys:(self.values ? self.values : [NSNull null]), @"values", (self.paymentProduct ? [self.paymentProduct toMap] : [NSNull null]), @"paymentProduct", (self.tokenize ? self.tokenize : [NSNull null]), @"tokenize", (self.sessionId ? self.sessionId : [NSNull null]), @"sessionId", nil];
+  return [NSDictionary dictionaryWithObjectsAndKeys:(self.values ? self.values : [NSNull null]), @"values", (self.paymentProductId ? self.paymentProductId : [NSNull null]), @"paymentProductId", (self.tokenize ? self.tokenize : [NSNull null]), @"tokenize", (self.sessionId ? self.sessionId : [NSNull null]), @"sessionId", nil];
 }
 @end
 

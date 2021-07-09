@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:flutter/services.dart';
-import 'package:ingenico_platform_interface/main.dart';
+import 'package:ingenico_platform_interface/main.dart' hide PaymentProduct;
 import 'package:ingenico_sdk/pigeon.dart';
 
+/// Class to interact with the Ingenico SDK
 class IngenicoSdk implements IngenicoPlatform {
   static Api? _apiInstance;
 
@@ -14,6 +14,7 @@ class IngenicoSdk implements IngenicoPlatform {
     return _apiInstance!;
   }
 
+  /// Convenience method for creating Session given the clientSessionId, customerId and region
   static Future<Session> initClientSession(
       {required String clientSessionId,
       required String customerId,
@@ -35,29 +36,13 @@ class IngenicoSdk implements IngenicoPlatform {
   }
 }
 
-class BasicPaymentProduct {
-  late String id;
-  late String? paymentMethod;
-  late String? paymentProductGroup;
-  late double? minAmount;
-  late double? maxAmount;
-  late bool? allowsRecurring;
-  late bool? allowsTokenization;
-  late bool? usesRedirectionTo3rdParty;
-
-  late DisplayHintsPaymentItem displayHints;
-}
-
-class DisplayHintsPaymentItem {
-  late int displayOrder;
-  late String label;
-  late String logoUrl;
-}
-
+/// Session contains all methods needed for making a payment
 class Session {
+  /// Id of the session
   final String sessionId;
   static Api? _apiInstance;
 
+  /// Create an instance of [Session]
   Session(this.sessionId);
 
   static Api get _api {
@@ -67,6 +52,7 @@ class Session {
     return _apiInstance!;
   }
 
+  /// Gets all basicPaymentItems for a given payment context
   Future<List<BasicPaymentProduct>> getBasicPaymentProducts(
       {required double amountValue,
       required String currencyCode,
@@ -84,6 +70,7 @@ class Session {
     return response.basicPaymentProduct as List<BasicPaymentProduct>;
   }
 
+  /// Gets PaymentProduct with fields from the GC gateway
   Future<PaymentProduct> getPaymentProduct(
       {required String paymentProductId,
       required double amountValue,
@@ -101,5 +88,21 @@ class Session {
     final response = await _api.getPaymentProduct(paymentProductRequest);
 
     return response;
+  }
+
+  /// Get encrypted payment data
+  Future<PreparedPaymentRequest> preparePaymentRequest(
+      {required String paymentProductId,
+      required Map<String, String> values,
+      required String currencyCode,
+      required bool tokenize,
+      required String sessionId}) {
+    final request = PaymentRequest();
+    request.paymentProductId = paymentProductId;
+    request.values = values;
+    request.tokenize = tokenize;
+    request.sessionId = sessionId;
+
+    return _api.preparePaymentRequest(request);
   }
 }

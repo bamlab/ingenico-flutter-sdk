@@ -176,7 +176,7 @@ class AbstractValidationRule {
 
 class PaymentRequest {
   late Map<String, String> values;
-  late PaymentProduct paymentProduct;
+  late String paymentProductId;
   late bool tokenize;
   late String sessionId;
 }

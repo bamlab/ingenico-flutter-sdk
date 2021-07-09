@@ -331,9 +331,9 @@ public class Messages {
     public Map<Object, Object> getValues() { return values; }
     public void setValues(Map<Object, Object> setterArg) { this.values = setterArg; }
 
-    private PaymentProduct paymentProduct;
-    public PaymentProduct getPaymentProduct() { return paymentProduct; }
-    public void setPaymentProduct(PaymentProduct setterArg) { this.paymentProduct = setterArg; }
+    private String paymentProductId;
+    public String getPaymentProductId() { return paymentProductId; }
+    public void setPaymentProductId(String setterArg) { this.paymentProductId = setterArg; }
 
     private Boolean tokenize;
     public Boolean getTokenize() { return tokenize; }
@@ -346,7 +346,7 @@ public class Messages {
     Map<String, Object> toMap() {
       Map<String, Object> toMapResult = new HashMap<>();
       toMapResult.put("values", values);
-      toMapResult.put("paymentProduct", paymentProduct.toMap());
+      toMapResult.put("paymentProductId", paymentProductId);
       toMapResult.put("tokenize", tokenize);
       toMapResult.put("sessionId", sessionId);
       return toMapResult;
@@ -355,8 +355,8 @@ public class Messages {
       PaymentRequest fromMapResult = new PaymentRequest();
       Object values = map.get("values");
       fromMapResult.values = (Map<Object, Object>)values;
-      Object paymentProduct = map.get("paymentProduct");
-      fromMapResult.paymentProduct = PaymentProduct.fromMap((Map)paymentProduct);
+      Object paymentProductId = map.get("paymentProductId");
+      fromMapResult.paymentProductId = (String)paymentProductId;
       Object tokenize = map.get("tokenize");
       fromMapResult.tokenize = (Boolean)tokenize;
       Object sessionId = map.get("sessionId");

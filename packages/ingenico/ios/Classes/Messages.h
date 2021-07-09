@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PaymentRequest : NSObject
 @property(nonatomic, strong, nullable) NSDictionary * values;
-@property(nonatomic, strong, nullable) PaymentProduct * paymentProduct;
+@property(nonatomic, copy, nullable) NSString * paymentProductId;
 @property(nonatomic, strong, nullable) NSNumber * tokenize;
 @property(nonatomic, copy, nullable) NSString * sessionId;
 @end

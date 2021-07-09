@@ -129,7 +129,7 @@ class IngenicoSdkPlugin : FlutterPlugin, Messages.Api {
         result: Messages.Result<Messages.PreparedPaymentRequest>
     ) {
         val paymentRequest = PaymentRequest()
-        paymentRequest.paymentProduct = paymentProductMap[arg.paymentProduct.id]
+        paymentRequest.paymentProduct = paymentProductMap[arg.paymentProductId]
         paymentRequest.tokenize = arg.tokenize
         arg.values.entries.map { e -> paymentRequest.setValue(e.key as String, e.value as String) }
 
