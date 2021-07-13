@@ -15,6 +15,9 @@ class IngenicoSdk implements IngenicoPlatform {
   }
 
   /// Convenience method for creating Session given the clientSessionId, customerId and region
+  ///
+  /// This is the entry point to the [IngenicoSDK] and should be used first.
+  /// See documentation [on the Ingenico website](https://epayments.developer-ingenico.com/documentation/sdk/mobile/android/#GcSession)
   static Future<Session> initClientSession(
       {required String clientSessionId,
       required String customerId,
@@ -37,6 +40,10 @@ class IngenicoSdk implements IngenicoPlatform {
 }
 
 /// Session contains all methods needed for making a payment
+///
+/// This should be generated with the [IngenicoSDK.initClientSession].
+/// Cannot be reused between different sessions of the app (is destroyed between each plugin restart).
+/// See documentation [on the Ingenico website](https://epayments.developer-ingenico.com/documentation/sdk/mobile/android/#GcSession)
 class Session {
   /// Id of the session
   final String sessionId;
@@ -53,6 +60,9 @@ class Session {
   }
 
   /// Gets all basicPaymentItems for a given payment context
+  ///
+  /// Can be used to see which payment product is available (Visa, Mastercard, Paypal ...)
+  /// See documentation [on the Ingenico website](https://epayments.developer-ingenico.com/documentation/sdk/mobile/android/#BasicPaymentItems)
   Future<List<BasicPaymentProduct>> getBasicPaymentProducts(
       {required double amountValue,
       required String currencyCode,
@@ -70,7 +80,10 @@ class Session {
     return response.basicPaymentProduct as List<BasicPaymentProduct>;
   }
 
-  /// Gets PaymentProduct with fields from the GC gateway
+  /// Once the [PaymentProduct] have been selected by the user
+  /// you can use this function to gather all the validation informatinons about the product
+  ///
+  /// See documentation [on the Ingenico website](https://epayments.developer-ingenico.com/documentation/sdk/mobile/android/#PaymentProduct)
   Future<PaymentProduct> getPaymentProduct(
       {required String paymentProductId,
       required double amountValue,
@@ -90,7 +103,10 @@ class Session {
     return response;
   }
 
-  /// Get encrypted payment data
+  /// Get the encrypted payment data to be send to the backend in order to process the payment
+  /// Final step of the mobile SDK payment
+  ///
+  /// See documentation [on the Ingenico website](https://epayments.developer-ingenico.com/documentation/sdk/mobile/android/#PreparedPaymentRequest)
   Future<PreparedPaymentRequest> preparePaymentRequest(
       {required String paymentProductId,
       required Map<String, String> values,
