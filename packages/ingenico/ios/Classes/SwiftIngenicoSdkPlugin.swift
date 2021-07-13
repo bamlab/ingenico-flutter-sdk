@@ -56,13 +56,33 @@ public class SwiftIngenicoSdkPlugin: NSObject, FlutterPlugin, FLTApi {
             response.fields = paymentProduct.fields.paymentProductFields as [Any]
             completion(response,  nil)
         }, failure: { error in
-            // Indicate that an error has occurred.
+            let error = FlutterError(code: "ERROR", message: error.localizedDescription, details: nil)
+            completion(nil,  error)
         })
 
     }
     
     public func preparePaymentRequest(_ input: FLTPaymentRequest?, completion: @escaping (FLTPreparedPaymentRequest?, FlutterError?) -> Void) {
-        <#code#>
+        let paymentProduct = paymentProductMap[input!.paymentProductId!]!
+
+        let paymentRequest = PaymentRequest(paymentProduct: paymentProduct, accountOnFile: nil, tokenize: input!.tokenize! as? Bool)
+        
+        input!.values!.forEach({ (key: AnyHashable, value: Any) in
+            paymentRequest.setValue(forField: value as! String, value: key as! String)
+        })
+        let session = sessionsMap[input!.sessionId!]!
+
+        session.prepare(paymentRequest, success: { preparedPaymentRequest in
+            let response = FLTPreparedPaymentRequest()
+            response.encryptedFields = preparedPaymentRequest.encryptedFields
+            response.encodedClientMetaInfo = preparedPaymentRequest.encodedClientMetaInfo
+
+            completion(response,  nil)
+        }, failure: { error in
+            let error = FlutterError(code: "ERROR", message: error.localizedDescription, details: nil)
+            completion(nil,  error)
+        })
+
     }
 
 }
