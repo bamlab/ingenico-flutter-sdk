@@ -10,17 +10,20 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  ingenico_platform_interface: 0.0.1
+  ingenico_platform_interface:
+    path: ../ingenico_platform_interface
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  pigeon:
+    path: ../../../packages/packages/pigeon
 
 flutter:
   plugin:
     platforms:
       android:
-        package: com.example.ingenico_sdk
+        package: com.ingenico.flutter_sdk
         pluginClass: IngenicoSdkPlugin
       ios:
         pluginClass: IngenicoSdkPlugin

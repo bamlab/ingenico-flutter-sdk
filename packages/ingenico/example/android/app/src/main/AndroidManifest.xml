@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ingenico_sdk_example">
+    package="com.ingenico.flutter_sdk_example">
    <application
         android:label="ingenico_sdk_example"
         android:icon="@mipmap/ic_launcher">
