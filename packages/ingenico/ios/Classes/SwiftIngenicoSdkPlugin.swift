@@ -29,6 +29,7 @@ public class SwiftIngenicoSdkPlugin: NSObject, FlutterPlugin, FLTApi {
                                      countryCode: CountryCode(rawValue: input!.countryCode!)!)
         
         let session = sessionsMap[input!.sessionId!]!
+        // TODO: add a parameter to handle the groupPaymentProducts parameter
         session.paymentItems(for: context, groupPaymentProducts: false,
                                     success: { paymentItems in
             let response = FLTPaymentContextResponse()
