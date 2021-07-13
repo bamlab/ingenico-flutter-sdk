@@ -5,7 +5,8 @@ import IngenicoConnectKit
 public class SwiftIngenicoSdkPlugin: NSObject, FlutterPlugin, FLTApi {
     
     private var sessionsMap = [String : Session]()
-    
+    private var paymentProductMap = [String : PaymentProduct]()
+
     public static func register(with registrar: FlutterPluginRegistrar) {
         let messenger : FlutterBinaryMessenger = registrar.messenger()
         let api : FLTApi = SwiftIngenicoSdkPlugin.init()
@@ -38,12 +39,26 @@ public class SwiftIngenicoSdkPlugin: NSObject, FlutterPlugin, FLTApi {
             let error = FlutterError(code: "ERROR", message: error.localizedDescription, details: nil)
             completion(nil,  error)
         })
-
-
     }
     
     public func getPaymentProduct(_ input: FLTGetPaymentProductRequest?, completion: @escaping (FLTPaymentProduct?, FlutterError?) -> Void) {
-        <#code#>
+        let paymentProductId = input!.paymentProductId!
+        let amountOfMoney = PaymentAmountOfMoney(totalAmount: Int(truncating: input!.amountValue!), currencyCode: CurrencyCode(rawValue: input!.currencyCode!)!)
+        let context = PaymentContext(amountOfMoney: amountOfMoney, isRecurring: input!.isRecurring! as! Bool,
+                                     countryCode: CountryCode(rawValue: input!.countryCode!)!)
+
+        let session = sessionsMap[input!.sessionId!]!
+
+        session.paymentProduct(withId: paymentProductId, context: context,
+                                    success: { paymentProduct in
+            let response = FLTPaymentProduct()
+
+            response.fields = paymentProduct.fields.paymentProductFields as [Any]
+            completion(response,  nil)
+        }, failure: { error in
+            // Indicate that an error has occurred.
+        })
+
     }
     
     public func preparePaymentRequest(_ input: FLTPaymentRequest?, completion: @escaping (FLTPreparedPaymentRequest?, FlutterError?) -> Void) {
