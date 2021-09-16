@@ -31,6 +31,9 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
+  # TODO: Plan to go on master as soon as Swift version is upgraded
+  pod 'IngenicoConnectKit', :git => 'https://github.com/Lyokone/connect-sdk-client-swift.git'
+
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
 

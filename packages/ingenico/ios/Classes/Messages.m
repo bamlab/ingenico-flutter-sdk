@@ -22,46 +22,46 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
       };
 }
 
-@interface SessionRequest ()
-+(SessionRequest*)fromMap:(NSDictionary*)dict;
+@interface FLTSessionRequest ()
++(FLTSessionRequest*)fromMap:(NSDictionary*)dict;
 -(NSDictionary*)toMap;
 @end
-@interface SessionResponse ()
-+(SessionResponse*)fromMap:(NSDictionary*)dict;
+@interface FLTSessionResponse ()
++(FLTSessionResponse*)fromMap:(NSDictionary*)dict;
 -(NSDictionary*)toMap;
 @end
-@interface PaymentContextRequest ()
-+(PaymentContextRequest*)fromMap:(NSDictionary*)dict;
+@interface FLTPaymentContextRequest ()
++(FLTPaymentContextRequest*)fromMap:(NSDictionary*)dict;
 -(NSDictionary*)toMap;
 @end
-@interface GetPaymentProductRequest ()
-+(GetPaymentProductRequest*)fromMap:(NSDictionary*)dict;
+@interface FLTGetPaymentProductRequest ()
++(FLTGetPaymentProductRequest*)fromMap:(NSDictionary*)dict;
 -(NSDictionary*)toMap;
 @end
-@interface PaymentContextResponse ()
-+(PaymentContextResponse*)fromMap:(NSDictionary*)dict;
+@interface FLTPaymentContextResponse ()
++(FLTPaymentContextResponse*)fromMap:(NSDictionary*)dict;
 -(NSDictionary*)toMap;
 @end
-@interface DisplayHintsPaymentItem ()
-+(DisplayHintsPaymentItem*)fromMap:(NSDictionary*)dict;
+@interface FLTDisplayHintsPaymentItem ()
++(FLTDisplayHintsPaymentItem*)fromMap:(NSDictionary*)dict;
 -(NSDictionary*)toMap;
 @end
-@interface PaymentProduct ()
-+(PaymentProduct*)fromMap:(NSDictionary*)dict;
+@interface FLTPaymentProduct ()
++(FLTPaymentProduct*)fromMap:(NSDictionary*)dict;
 -(NSDictionary*)toMap;
 @end
-@interface PaymentRequest ()
-+(PaymentRequest*)fromMap:(NSDictionary*)dict;
+@interface FLTPaymentRequest ()
++(FLTPaymentRequest*)fromMap:(NSDictionary*)dict;
 -(NSDictionary*)toMap;
 @end
-@interface PreparedPaymentRequest ()
-+(PreparedPaymentRequest*)fromMap:(NSDictionary*)dict;
+@interface FLTPreparedPaymentRequest ()
++(FLTPreparedPaymentRequest*)fromMap:(NSDictionary*)dict;
 -(NSDictionary*)toMap;
 @end
 
-@implementation SessionRequest
-+(SessionRequest*)fromMap:(NSDictionary*)dict {
-  SessionRequest* result = [[SessionRequest alloc] init];
+@implementation FLTSessionRequest
++(FLTSessionRequest*)fromMap:(NSDictionary*)dict {
+  FLTSessionRequest* result = [[FLTSessionRequest alloc] init];
   result.clientSessionId = dict[@"clientSessionId"];
   if ((NSNull *)result.clientSessionId == [NSNull null]) {
     result.clientSessionId = nil;
@@ -93,9 +93,9 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
 }
 @end
 
-@implementation SessionResponse
-+(SessionResponse*)fromMap:(NSDictionary*)dict {
-  SessionResponse* result = [[SessionResponse alloc] init];
+@implementation FLTSessionResponse
++(FLTSessionResponse*)fromMap:(NSDictionary*)dict {
+  FLTSessionResponse* result = [[FLTSessionResponse alloc] init];
   result.sessionId = dict[@"sessionId"];
   if ((NSNull *)result.sessionId == [NSNull null]) {
     result.sessionId = nil;
@@ -107,9 +107,9 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
 }
 @end
 
-@implementation PaymentContextRequest
-+(PaymentContextRequest*)fromMap:(NSDictionary*)dict {
-  PaymentContextRequest* result = [[PaymentContextRequest alloc] init];
+@implementation FLTPaymentContextRequest
++(FLTPaymentContextRequest*)fromMap:(NSDictionary*)dict {
+  FLTPaymentContextRequest* result = [[FLTPaymentContextRequest alloc] init];
   result.sessionId = dict[@"sessionId"];
   if ((NSNull *)result.sessionId == [NSNull null]) {
     result.sessionId = nil;
@@ -137,9 +137,9 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
 }
 @end
 
-@implementation GetPaymentProductRequest
-+(GetPaymentProductRequest*)fromMap:(NSDictionary*)dict {
-  GetPaymentProductRequest* result = [[GetPaymentProductRequest alloc] init];
+@implementation FLTGetPaymentProductRequest
++(FLTGetPaymentProductRequest*)fromMap:(NSDictionary*)dict {
+  FLTGetPaymentProductRequest* result = [[FLTGetPaymentProductRequest alloc] init];
   result.sessionId = dict[@"sessionId"];
   if ((NSNull *)result.sessionId == [NSNull null]) {
     result.sessionId = nil;
@@ -171,9 +171,9 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
 }
 @end
 
-@implementation PaymentContextResponse
-+(PaymentContextResponse*)fromMap:(NSDictionary*)dict {
-  PaymentContextResponse* result = [[PaymentContextResponse alloc] init];
+@implementation FLTPaymentContextResponse
++(FLTPaymentContextResponse*)fromMap:(NSDictionary*)dict {
+  FLTPaymentContextResponse* result = [[FLTPaymentContextResponse alloc] init];
   result.basicPaymentProduct = dict[@"basicPaymentProduct"];
   if ((NSNull *)result.basicPaymentProduct == [NSNull null]) {
     result.basicPaymentProduct = nil;
@@ -185,9 +185,9 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
 }
 @end
 
-@implementation DisplayHintsPaymentItem
-+(DisplayHintsPaymentItem*)fromMap:(NSDictionary*)dict {
-  DisplayHintsPaymentItem* result = [[DisplayHintsPaymentItem alloc] init];
+@implementation FLTDisplayHintsPaymentItem
++(FLTDisplayHintsPaymentItem*)fromMap:(NSDictionary*)dict {
+  FLTDisplayHintsPaymentItem* result = [[FLTDisplayHintsPaymentItem alloc] init];
   result.displayOrder = dict[@"displayOrder"];
   if ((NSNull *)result.displayOrder == [NSNull null]) {
     result.displayOrder = nil;
@@ -207,9 +207,9 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
 }
 @end
 
-@implementation PaymentProduct
-+(PaymentProduct*)fromMap:(NSDictionary*)dict {
-  PaymentProduct* result = [[PaymentProduct alloc] init];
+@implementation FLTPaymentProduct
++(FLTPaymentProduct*)fromMap:(NSDictionary*)dict {
+  FLTPaymentProduct* result = [[FLTPaymentProduct alloc] init];
   result.id = dict[@"id"];
   if ((NSNull *)result.id == [NSNull null]) {
     result.id = nil;
@@ -242,7 +242,7 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
   if ((NSNull *)result.usesRedirectionTo3rdParty == [NSNull null]) {
     result.usesRedirectionTo3rdParty = nil;
   }
-  result.displayHints = [DisplayHintsPaymentItem fromMap:dict[@"displayHints"]];
+  result.displayHints = [FLTDisplayHintsPaymentItem fromMap:dict[@"displayHints"]];
   if ((NSNull *)result.displayHints == [NSNull null]) {
     result.displayHints = nil;
   }
@@ -257,9 +257,9 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
 }
 @end
 
-@implementation PaymentRequest
-+(PaymentRequest*)fromMap:(NSDictionary*)dict {
-  PaymentRequest* result = [[PaymentRequest alloc] init];
+@implementation FLTPaymentRequest
++(FLTPaymentRequest*)fromMap:(NSDictionary*)dict {
+  FLTPaymentRequest* result = [[FLTPaymentRequest alloc] init];
   result.values = dict[@"values"];
   if ((NSNull *)result.values == [NSNull null]) {
     result.values = nil;
@@ -283,9 +283,9 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
 }
 @end
 
-@implementation PreparedPaymentRequest
-+(PreparedPaymentRequest*)fromMap:(NSDictionary*)dict {
-  PreparedPaymentRequest* result = [[PreparedPaymentRequest alloc] init];
+@implementation FLTPreparedPaymentRequest
++(FLTPreparedPaymentRequest*)fromMap:(NSDictionary*)dict {
+  FLTPreparedPaymentRequest* result = [[FLTPreparedPaymentRequest alloc] init];
   result.encryptedFields = dict[@"encryptedFields"];
   if ((NSNull *)result.encryptedFields == [NSNull null]) {
     result.encryptedFields = nil;
@@ -301,35 +301,35 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
 }
 @end
 
-@interface ApiCodecReader : FlutterStandardReader
+@interface FLTApiCodecReader : FlutterStandardReader
 @end
-@implementation ApiCodecReader
+@implementation FLTApiCodecReader
 - (nullable id)readValueOfType:(UInt8)type 
 {
   switch (type) {
     case 127:     
-      return [GetPaymentProductRequest fromMap:[self readValue]];
+      return [FLTGetPaymentProductRequest fromMap:[self readValue]];
     
     case 126:     
-      return [PaymentContextRequest fromMap:[self readValue]];
+      return [FLTPaymentContextRequest fromMap:[self readValue]];
     
     case 125:     
-      return [PaymentContextResponse fromMap:[self readValue]];
+      return [FLTPaymentContextResponse fromMap:[self readValue]];
     
     case 124:     
-      return [PaymentProduct fromMap:[self readValue]];
+      return [FLTPaymentProduct fromMap:[self readValue]];
     
     case 123:     
-      return [PaymentRequest fromMap:[self readValue]];
+      return [FLTPaymentRequest fromMap:[self readValue]];
     
     case 122:     
-      return [PreparedPaymentRequest fromMap:[self readValue]];
+      return [FLTPreparedPaymentRequest fromMap:[self readValue]];
     
     case 121:     
-      return [SessionRequest fromMap:[self readValue]];
+      return [FLTSessionRequest fromMap:[self readValue]];
     
     case 120:     
-      return [SessionResponse fromMap:[self readValue]];
+      return [FLTSessionResponse fromMap:[self readValue]];
     
     default:    
       return [super readValueOfType:type];
@@ -338,40 +338,40 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
 }
 @end
 
-@interface ApiCodecWriter : FlutterStandardWriter
+@interface FLTApiCodecWriter : FlutterStandardWriter
 @end
-@implementation ApiCodecWriter
+@implementation FLTApiCodecWriter
 - (void)writeValue:(id)value 
 {
-  if ([value isKindOfClass:[GetPaymentProductRequest class]]) {
+  if ([value isKindOfClass:[FLTGetPaymentProductRequest class]]) {
     [self writeByte:127];
     [self writeValue:[value toMap]];
   }
-  else if ([value isKindOfClass:[PaymentContextRequest class]]) {
+  else if ([value isKindOfClass:[FLTPaymentContextRequest class]]) {
     [self writeByte:126];
     [self writeValue:[value toMap]];
   }
-  else if ([value isKindOfClass:[PaymentContextResponse class]]) {
+  else if ([value isKindOfClass:[FLTPaymentContextResponse class]]) {
     [self writeByte:125];
     [self writeValue:[value toMap]];
   }
-  else if ([value isKindOfClass:[PaymentProduct class]]) {
+  else if ([value isKindOfClass:[FLTPaymentProduct class]]) {
     [self writeByte:124];
     [self writeValue:[value toMap]];
   }
-  else if ([value isKindOfClass:[PaymentRequest class]]) {
+  else if ([value isKindOfClass:[FLTPaymentRequest class]]) {
     [self writeByte:123];
     [self writeValue:[value toMap]];
   }
-  else if ([value isKindOfClass:[PreparedPaymentRequest class]]) {
+  else if ([value isKindOfClass:[FLTPreparedPaymentRequest class]]) {
     [self writeByte:122];
     [self writeValue:[value toMap]];
   }
-  else if ([value isKindOfClass:[SessionRequest class]]) {
+  else if ([value isKindOfClass:[FLTSessionRequest class]]) {
     [self writeByte:121];
     [self writeValue:[value toMap]];
   }
-  else if ([value isKindOfClass:[SessionResponse class]]) {
+  else if ([value isKindOfClass:[FLTSessionResponse class]]) {
     [self writeByte:120];
     [self writeValue:[value toMap]];
   }
@@ -381,40 +381,40 @@ static NSDictionary<NSString*, id>* wrapResult(NSDictionary *result, FlutterErro
 }
 @end
 
-@interface ApiCodecReaderWriter : FlutterStandardReaderWriter
+@interface FLTApiCodecReaderWriter : FlutterStandardReaderWriter
 @end
-@implementation ApiCodecReaderWriter
+@implementation FLTApiCodecReaderWriter
 - (FlutterStandardWriter*)writerWithData:(NSMutableData*)data {
-  return [[ApiCodecWriter alloc] initWithData:data];
+  return [[FLTApiCodecWriter alloc] initWithData:data];
 }
 - (FlutterStandardReader*)readerWithData:(NSData*)data {
-  return [[ApiCodecReader alloc] initWithData:data];
+  return [[FLTApiCodecReader alloc] initWithData:data];
 }
 @end
 
-NSObject<FlutterMessageCodec>* ApiGetCodec() {
+NSObject<FlutterMessageCodec>* FLTApiGetCodec() {
   static dispatch_once_t s_pred = 0;
   static FlutterStandardMessageCodec* s_sharedObject = nil;
   dispatch_once(&s_pred, ^{
-    ApiCodecReaderWriter* readerWriter = [[ApiCodecReaderWriter alloc] init];
+    FLTApiCodecReaderWriter* readerWriter = [[FLTApiCodecReaderWriter alloc] init];
     s_sharedObject = [FlutterStandardMessageCodec codecWithReaderWriter:readerWriter];
   });
   return s_sharedObject;
 }
 
 
-void ApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<Api> api) {
+void FLTApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<FLTApi> api) {
   {
     FlutterBasicMessageChannel *channel =
       [FlutterBasicMessageChannel
         messageChannelWithName:@"dev.flutter.pigeon.Api.initClientSession"
         binaryMessenger:binaryMessenger
-        codec:ApiGetCodec()];
+        codec:FLTApiGetCodec()];
     if (api) {
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        SessionRequest *input = [SessionRequest fromMap:message];
+        FLTSessionRequest *input = [FLTSessionRequest fromMap:message];
         FlutterError *error;
-        SessionResponse *output = [api initClientSession:input error:&error];
+        FLTSessionResponse *output = [api initClientSession:input error:&error];
         callback(wrapResult([output toMap], error));
       }];
     }
@@ -427,11 +427,11 @@ void ApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<Api> api) {
       [FlutterBasicMessageChannel
         messageChannelWithName:@"dev.flutter.pigeon.Api.getBasicPaymentItems"
         binaryMessenger:binaryMessenger
-        codec:ApiGetCodec()];
+        codec:FLTApiGetCodec()];
     if (api) {
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        PaymentContextRequest *input = [PaymentContextRequest fromMap:message];
-        [api getBasicPaymentItems:input completion:^(PaymentContextResponse *_Nullable output, FlutterError *_Nullable error) {
+        FLTPaymentContextRequest *input = [FLTPaymentContextRequest fromMap:message];
+        [api getBasicPaymentItems:input completion:^(FLTPaymentContextResponse *_Nullable output, FlutterError *_Nullable error) {
           callback(wrapResult([output toMap], error));
         }];
       }];
@@ -445,11 +445,11 @@ void ApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<Api> api) {
       [FlutterBasicMessageChannel
         messageChannelWithName:@"dev.flutter.pigeon.Api.getPaymentProduct"
         binaryMessenger:binaryMessenger
-        codec:ApiGetCodec()];
+        codec:FLTApiGetCodec()];
     if (api) {
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        GetPaymentProductRequest *input = [GetPaymentProductRequest fromMap:message];
-        [api getPaymentProduct:input completion:^(PaymentProduct *_Nullable output, FlutterError *_Nullable error) {
+        FLTGetPaymentProductRequest *input = [FLTGetPaymentProductRequest fromMap:message];
+        [api getPaymentProduct:input completion:^(FLTPaymentProduct *_Nullable output, FlutterError *_Nullable error) {
           callback(wrapResult([output toMap], error));
         }];
       }];
@@ -463,11 +463,11 @@ void ApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<Api> api) {
       [FlutterBasicMessageChannel
         messageChannelWithName:@"dev.flutter.pigeon.Api.preparePaymentRequest"
         binaryMessenger:binaryMessenger
-        codec:ApiGetCodec()];
+        codec:FLTApiGetCodec()];
     if (api) {
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        PaymentRequest *input = [PaymentRequest fromMap:message];
-        [api preparePaymentRequest:input completion:^(PreparedPaymentRequest *_Nullable output, FlutterError *_Nullable error) {
+        FLTPaymentRequest *input = [FLTPaymentRequest fromMap:message];
+        [api preparePaymentRequest:input completion:^(FLTPreparedPaymentRequest *_Nullable output, FlutterError *_Nullable error) {
           callback(wrapResult([output toMap], error));
         }];
       }];
