@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:flutter/services.dart';
 import 'package:ingenico_sdk/ingenico_sdk.dart';
-import 'package:ingenico_sdk/pigeon.dart';
 
 void main() {
   runApp(MyApp());
