@@ -19,6 +19,77 @@ import java.util.HashMap;
 @SuppressWarnings({"unused", "unchecked", "CodeBlock2Expr", "RedundantSuppression"})
 public class Messages {
 
+  public enum Type {
+    string(0),
+    integer(1),
+    numericstring(2),
+    expirydate(3),
+    booleanEnum(4),
+    date(5);
+
+    private int index;
+    private Type(final int index) {
+      this.index = index;
+    }
+  }
+
+  public enum PreferredInputType {
+    integerKeyboard(0),
+    stringKeyboard(1),
+    phoneNumberKeyboard(2),
+    emailAddressKeyboard(3),
+    dateKeyboard(4);
+
+    private int index;
+    private PreferredInputType(final int index) {
+      this.index = index;
+    }
+  }
+
+  public enum ListType {
+    text(0),
+    list(1),
+    currency(2),
+    date(3),
+    booleanEnum(4);
+
+    private int index;
+    private ListType(final int index) {
+      this.index = index;
+    }
+  }
+
+  public enum PaymentProductFieldDisplayElementType {
+    integer(0),
+    string(1),
+    currency(2),
+    percentage(3),
+    uri(4);
+
+    private int index;
+    private PaymentProductFieldDisplayElementType(final int index) {
+      this.index = index;
+    }
+  }
+
+  public enum ValidationType {
+    expirationDate(0),
+    emailAdress(1),
+    fixedList(2),
+    iban(3),
+    length(4),
+    luhn(5),
+    range(6),
+    regularExpression(7),
+    type(8),
+    termsAndConditions(9);
+
+    private int index;
+    private ValidationType(final int index) {
+      this.index = index;
+    }
+  }
+
   /** Generated class from Pigeon that represents data sent in messages. */
   public static class SessionRequest {
     private String clientSessionId;
@@ -213,6 +284,81 @@ public class Messages {
   }
 
   /** Generated class from Pigeon that represents data sent in messages. */
+  public static class BasicPaymentProduct {
+    private String id;
+    public String getId() { return id; }
+    public void setId(String setterArg) { this.id = setterArg; }
+
+    private String paymentMethod;
+    public String getPaymentMethod() { return paymentMethod; }
+    public void setPaymentMethod(String setterArg) { this.paymentMethod = setterArg; }
+
+    private String paymentProductGroup;
+    public String getPaymentProductGroup() { return paymentProductGroup; }
+    public void setPaymentProductGroup(String setterArg) { this.paymentProductGroup = setterArg; }
+
+    private Double minAmount;
+    public Double getMinAmount() { return minAmount; }
+    public void setMinAmount(Double setterArg) { this.minAmount = setterArg; }
+
+    private Double maxAmount;
+    public Double getMaxAmount() { return maxAmount; }
+    public void setMaxAmount(Double setterArg) { this.maxAmount = setterArg; }
+
+    private Boolean allowsRecurring;
+    public Boolean getAllowsRecurring() { return allowsRecurring; }
+    public void setAllowsRecurring(Boolean setterArg) { this.allowsRecurring = setterArg; }
+
+    private Boolean allowsTokenization;
+    public Boolean getAllowsTokenization() { return allowsTokenization; }
+    public void setAllowsTokenization(Boolean setterArg) { this.allowsTokenization = setterArg; }
+
+    private Boolean usesRedirectionTo3rdParty;
+    public Boolean getUsesRedirectionTo3rdParty() { return usesRedirectionTo3rdParty; }
+    public void setUsesRedirectionTo3rdParty(Boolean setterArg) { this.usesRedirectionTo3rdParty = setterArg; }
+
+    private DisplayHintsPaymentItem displayHints;
+    public DisplayHintsPaymentItem getDisplayHints() { return displayHints; }
+    public void setDisplayHints(DisplayHintsPaymentItem setterArg) { this.displayHints = setterArg; }
+
+    Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("id", id);
+      toMapResult.put("paymentMethod", paymentMethod);
+      toMapResult.put("paymentProductGroup", paymentProductGroup);
+      toMapResult.put("minAmount", minAmount);
+      toMapResult.put("maxAmount", maxAmount);
+      toMapResult.put("allowsRecurring", allowsRecurring);
+      toMapResult.put("allowsTokenization", allowsTokenization);
+      toMapResult.put("usesRedirectionTo3rdParty", usesRedirectionTo3rdParty);
+      toMapResult.put("displayHints", (displayHints == null) ? null : displayHints.toMap());
+      return toMapResult;
+    }
+    static BasicPaymentProduct fromMap(Map<String, Object> map) {
+      BasicPaymentProduct fromMapResult = new BasicPaymentProduct();
+      Object id = map.get("id");
+      fromMapResult.id = (String)id;
+      Object paymentMethod = map.get("paymentMethod");
+      fromMapResult.paymentMethod = (String)paymentMethod;
+      Object paymentProductGroup = map.get("paymentProductGroup");
+      fromMapResult.paymentProductGroup = (String)paymentProductGroup;
+      Object minAmount = map.get("minAmount");
+      fromMapResult.minAmount = (Double)minAmount;
+      Object maxAmount = map.get("maxAmount");
+      fromMapResult.maxAmount = (Double)maxAmount;
+      Object allowsRecurring = map.get("allowsRecurring");
+      fromMapResult.allowsRecurring = (Boolean)allowsRecurring;
+      Object allowsTokenization = map.get("allowsTokenization");
+      fromMapResult.allowsTokenization = (Boolean)allowsTokenization;
+      Object usesRedirectionTo3rdParty = map.get("usesRedirectionTo3rdParty");
+      fromMapResult.usesRedirectionTo3rdParty = (Boolean)usesRedirectionTo3rdParty;
+      Object displayHints = map.get("displayHints");
+      fromMapResult.displayHints = DisplayHintsPaymentItem.fromMap((Map)displayHints);
+      return fromMapResult;
+    }
+  }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
   public static class DisplayHintsPaymentItem {
     private Long displayOrder;
     public Long getDisplayOrder() { return displayOrder; }
@@ -328,6 +474,291 @@ public class Messages {
   }
 
   /** Generated class from Pigeon that represents data sent in messages. */
+  public static class PaymentProductField {
+    private String id;
+    public String getId() { return id; }
+    public void setId(String setterArg) { this.id = setterArg; }
+
+    private Type type;
+    public Type getType() { return type; }
+    public void setType(Type setterArg) { this.type = setterArg; }
+
+    private DisplayHintsProductFields displayHints;
+    public DisplayHintsProductFields getDisplayHints() { return displayHints; }
+    public void setDisplayHints(DisplayHintsProductFields setterArg) { this.displayHints = setterArg; }
+
+    private DataRestrictions dataRestrictions;
+    public DataRestrictions getDataRestrictions() { return dataRestrictions; }
+    public void setDataRestrictions(DataRestrictions setterArg) { this.dataRestrictions = setterArg; }
+
+    Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("id", id);
+      toMapResult.put("type", type.index);
+      toMapResult.put("displayHints", (displayHints == null) ? null : displayHints.toMap());
+      toMapResult.put("dataRestrictions", (dataRestrictions == null) ? null : dataRestrictions.toMap());
+      return toMapResult;
+    }
+    static PaymentProductField fromMap(Map<String, Object> map) {
+      PaymentProductField fromMapResult = new PaymentProductField();
+      Object id = map.get("id");
+      fromMapResult.id = (String)id;
+      Object type = map.get("type");
+      fromMapResult.type = Type.values()[(int)type];
+      Object displayHints = map.get("displayHints");
+      fromMapResult.displayHints = DisplayHintsProductFields.fromMap((Map)displayHints);
+      Object dataRestrictions = map.get("dataRestrictions");
+      fromMapResult.dataRestrictions = DataRestrictions.fromMap((Map)dataRestrictions);
+      return fromMapResult;
+    }
+  }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class DisplayHintsProductFields {
+    private Boolean alwaysShow;
+    public Boolean getAlwaysShow() { return alwaysShow; }
+    public void setAlwaysShow(Boolean setterArg) { this.alwaysShow = setterArg; }
+
+    private Boolean obfuscate;
+    public Boolean getObfuscate() { return obfuscate; }
+    public void setObfuscate(Boolean setterArg) { this.obfuscate = setterArg; }
+
+    private Long displayOrder;
+    public Long getDisplayOrder() { return displayOrder; }
+    public void setDisplayOrder(Long setterArg) { this.displayOrder = setterArg; }
+
+    private String label;
+    public String getLabel() { return label; }
+    public void setLabel(String setterArg) { this.label = setterArg; }
+
+    private String placeholderLabel;
+    public String getPlaceholderLabel() { return placeholderLabel; }
+    public void setPlaceholderLabel(String setterArg) { this.placeholderLabel = setterArg; }
+
+    private String link;
+    public String getLink() { return link; }
+    public void setLink(String setterArg) { this.link = setterArg; }
+
+    private String mask;
+    public String getMask() { return mask; }
+    public void setMask(String setterArg) { this.mask = setterArg; }
+
+    private PreferredInputType preferredInputType;
+    public PreferredInputType getPreferredInputType() { return preferredInputType; }
+    public void setPreferredInputType(PreferredInputType setterArg) { this.preferredInputType = setterArg; }
+
+    private Tooltip tooltip;
+    public Tooltip getTooltip() { return tooltip; }
+    public void setTooltip(Tooltip setterArg) { this.tooltip = setterArg; }
+
+    private FormElement formElement;
+    public FormElement getFormElement() { return formElement; }
+    public void setFormElement(FormElement setterArg) { this.formElement = setterArg; }
+
+    Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("alwaysShow", alwaysShow);
+      toMapResult.put("obfuscate", obfuscate);
+      toMapResult.put("displayOrder", displayOrder);
+      toMapResult.put("label", label);
+      toMapResult.put("placeholderLabel", placeholderLabel);
+      toMapResult.put("link", link);
+      toMapResult.put("mask", mask);
+      toMapResult.put("preferredInputType", preferredInputType.index);
+      toMapResult.put("tooltip", (tooltip == null) ? null : tooltip.toMap());
+      toMapResult.put("formElement", (formElement == null) ? null : formElement.toMap());
+      return toMapResult;
+    }
+    static DisplayHintsProductFields fromMap(Map<String, Object> map) {
+      DisplayHintsProductFields fromMapResult = new DisplayHintsProductFields();
+      Object alwaysShow = map.get("alwaysShow");
+      fromMapResult.alwaysShow = (Boolean)alwaysShow;
+      Object obfuscate = map.get("obfuscate");
+      fromMapResult.obfuscate = (Boolean)obfuscate;
+      Object displayOrder = map.get("displayOrder");
+      fromMapResult.displayOrder = (displayOrder == null) ? null : ((displayOrder instanceof Integer) ? (Integer)displayOrder : (Long)displayOrder);
+      Object label = map.get("label");
+      fromMapResult.label = (String)label;
+      Object placeholderLabel = map.get("placeholderLabel");
+      fromMapResult.placeholderLabel = (String)placeholderLabel;
+      Object link = map.get("link");
+      fromMapResult.link = (String)link;
+      Object mask = map.get("mask");
+      fromMapResult.mask = (String)mask;
+      Object preferredInputType = map.get("preferredInputType");
+      fromMapResult.preferredInputType = PreferredInputType.values()[(int)preferredInputType];
+      Object tooltip = map.get("tooltip");
+      fromMapResult.tooltip = Tooltip.fromMap((Map)tooltip);
+      Object formElement = map.get("formElement");
+      fromMapResult.formElement = FormElement.fromMap((Map)formElement);
+      return fromMapResult;
+    }
+  }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class Tooltip {
+    private String image;
+    public String getImage() { return image; }
+    public void setImage(String setterArg) { this.image = setterArg; }
+
+    private String label;
+    public String getLabel() { return label; }
+    public void setLabel(String setterArg) { this.label = setterArg; }
+
+    Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("image", image);
+      toMapResult.put("label", label);
+      return toMapResult;
+    }
+    static Tooltip fromMap(Map<String, Object> map) {
+      Tooltip fromMapResult = new Tooltip();
+      Object image = map.get("image");
+      fromMapResult.image = (String)image;
+      Object label = map.get("label");
+      fromMapResult.label = (String)label;
+      return fromMapResult;
+    }
+  }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class FormElement {
+    private ListType type;
+    public ListType getType() { return type; }
+    public void setType(ListType setterArg) { this.type = setterArg; }
+
+    private List<ValueMap> valueMapping;
+    public List<ValueMap> getValueMapping() { return valueMapping; }
+    public void setValueMapping(List<ValueMap> setterArg) { this.valueMapping = setterArg; }
+
+    Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("type", type.index);
+      toMapResult.put("valueMapping", valueMapping);
+      return toMapResult;
+    }
+    static FormElement fromMap(Map<String, Object> map) {
+      FormElement fromMapResult = new FormElement();
+      Object type = map.get("type");
+      fromMapResult.type = ListType.values()[(int)type];
+      Object valueMapping = map.get("valueMapping");
+      fromMapResult.valueMapping = (List<ValueMap>)valueMapping;
+      return fromMapResult;
+    }
+  }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class ValueMap {
+    private String value;
+    public String getValue() { return value; }
+    public void setValue(String setterArg) { this.value = setterArg; }
+
+    private List<PaymentProductFieldDisplayElement> displayElements;
+    public List<PaymentProductFieldDisplayElement> getDisplayElements() { return displayElements; }
+    public void setDisplayElements(List<PaymentProductFieldDisplayElement> setterArg) { this.displayElements = setterArg; }
+
+    Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("value", value);
+      toMapResult.put("displayElements", displayElements);
+      return toMapResult;
+    }
+    static ValueMap fromMap(Map<String, Object> map) {
+      ValueMap fromMapResult = new ValueMap();
+      Object value = map.get("value");
+      fromMapResult.value = (String)value;
+      Object displayElements = map.get("displayElements");
+      fromMapResult.displayElements = (List<PaymentProductFieldDisplayElement>)displayElements;
+      return fromMapResult;
+    }
+  }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class PaymentProductFieldDisplayElement {
+    private String id;
+    public String getId() { return id; }
+    public void setId(String setterArg) { this.id = setterArg; }
+
+    private PaymentProductFieldDisplayElementType type;
+    public PaymentProductFieldDisplayElementType getType() { return type; }
+    public void setType(PaymentProductFieldDisplayElementType setterArg) { this.type = setterArg; }
+
+    private String value;
+    public String getValue() { return value; }
+    public void setValue(String setterArg) { this.value = setterArg; }
+
+    Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("id", id);
+      toMapResult.put("type", type.index);
+      toMapResult.put("value", value);
+      return toMapResult;
+    }
+    static PaymentProductFieldDisplayElement fromMap(Map<String, Object> map) {
+      PaymentProductFieldDisplayElement fromMapResult = new PaymentProductFieldDisplayElement();
+      Object id = map.get("id");
+      fromMapResult.id = (String)id;
+      Object type = map.get("type");
+      fromMapResult.type = PaymentProductFieldDisplayElementType.values()[(int)type];
+      Object value = map.get("value");
+      fromMapResult.value = (String)value;
+      return fromMapResult;
+    }
+  }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class DataRestrictions {
+    private Boolean isRequired;
+    public Boolean getIsRequired() { return isRequired; }
+    public void setIsRequired(Boolean setterArg) { this.isRequired = setterArg; }
+
+    private List<AbstractValidationRule> validationRules;
+    public List<AbstractValidationRule> getValidationRules() { return validationRules; }
+    public void setValidationRules(List<AbstractValidationRule> setterArg) { this.validationRules = setterArg; }
+
+    Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("isRequired", isRequired);
+      toMapResult.put("validationRules", validationRules);
+      return toMapResult;
+    }
+    static DataRestrictions fromMap(Map<String, Object> map) {
+      DataRestrictions fromMapResult = new DataRestrictions();
+      Object isRequired = map.get("isRequired");
+      fromMapResult.isRequired = (Boolean)isRequired;
+      Object validationRules = map.get("validationRules");
+      fromMapResult.validationRules = (List<AbstractValidationRule>)validationRules;
+      return fromMapResult;
+    }
+  }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class AbstractValidationRule {
+    private String messageId;
+    public String getMessageId() { return messageId; }
+    public void setMessageId(String setterArg) { this.messageId = setterArg; }
+
+    private ValidationType type;
+    public ValidationType getType() { return type; }
+    public void setType(ValidationType setterArg) { this.type = setterArg; }
+
+    Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("messageId", messageId);
+      toMapResult.put("type", type.index);
+      return toMapResult;
+    }
+    static AbstractValidationRule fromMap(Map<String, Object> map) {
+      AbstractValidationRule fromMapResult = new AbstractValidationRule();
+      Object messageId = map.get("messageId");
+      fromMapResult.messageId = (String)messageId;
+      Object type = map.get("type");
+      fromMapResult.type = ValidationType.values()[(int)type];
+      return fromMapResult;
+    }
+  }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
   public static class PaymentRequest {
     private Map<String, String> values;
     public Map<String, String> getValues() { return values; }
@@ -404,28 +835,43 @@ public class Messages {
     protected Object readValueOfType(byte type, ByteBuffer buffer) {
       switch (type) {
         case (byte)128:         
-          return GetPaymentProductRequest.fromMap((Map<String, Object>) readValue(buffer));
+          return AbstractValidationRule.fromMap((Map<String, Object>) readValue(buffer));
         
         case (byte)129:         
-          return PaymentContextRequest.fromMap((Map<String, Object>) readValue(buffer));
+          return BasicPaymentProduct.fromMap((Map<String, Object>) readValue(buffer));
         
         case (byte)130:         
-          return PaymentContextResponse.fromMap((Map<String, Object>) readValue(buffer));
+          return GetPaymentProductRequest.fromMap((Map<String, Object>) readValue(buffer));
         
         case (byte)131:         
-          return PaymentProduct.fromMap((Map<String, Object>) readValue(buffer));
+          return PaymentContextRequest.fromMap((Map<String, Object>) readValue(buffer));
         
         case (byte)132:         
-          return PaymentRequest.fromMap((Map<String, Object>) readValue(buffer));
+          return PaymentContextResponse.fromMap((Map<String, Object>) readValue(buffer));
         
         case (byte)133:         
-          return PreparedPaymentRequest.fromMap((Map<String, Object>) readValue(buffer));
+          return PaymentProduct.fromMap((Map<String, Object>) readValue(buffer));
         
         case (byte)134:         
-          return SessionRequest.fromMap((Map<String, Object>) readValue(buffer));
+          return PaymentProductField.fromMap((Map<String, Object>) readValue(buffer));
         
         case (byte)135:         
+          return PaymentProductFieldDisplayElement.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case (byte)136:         
+          return PaymentRequest.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case (byte)137:         
+          return PreparedPaymentRequest.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case (byte)138:         
+          return SessionRequest.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case (byte)139:         
           return SessionResponse.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case (byte)140:         
+          return ValueMap.fromMap((Map<String, Object>) readValue(buffer));
         
         default:        
           return super.readValueOfType(type, buffer);
@@ -434,37 +880,57 @@ public class Messages {
     }
     @Override
     protected void writeValue(ByteArrayOutputStream stream, Object value)     {
-      if (value instanceof GetPaymentProductRequest) {
+      if (value instanceof AbstractValidationRule) {
         stream.write(128);
+        writeValue(stream, ((AbstractValidationRule) value).toMap());
+      } else 
+      if (value instanceof BasicPaymentProduct) {
+        stream.write(129);
+        writeValue(stream, ((BasicPaymentProduct) value).toMap());
+      } else 
+      if (value instanceof GetPaymentProductRequest) {
+        stream.write(130);
         writeValue(stream, ((GetPaymentProductRequest) value).toMap());
       } else 
       if (value instanceof PaymentContextRequest) {
-        stream.write(129);
+        stream.write(131);
         writeValue(stream, ((PaymentContextRequest) value).toMap());
       } else 
       if (value instanceof PaymentContextResponse) {
-        stream.write(130);
+        stream.write(132);
         writeValue(stream, ((PaymentContextResponse) value).toMap());
       } else 
       if (value instanceof PaymentProduct) {
-        stream.write(131);
+        stream.write(133);
         writeValue(stream, ((PaymentProduct) value).toMap());
       } else 
+      if (value instanceof PaymentProductField) {
+        stream.write(134);
+        writeValue(stream, ((PaymentProductField) value).toMap());
+      } else 
+      if (value instanceof PaymentProductFieldDisplayElement) {
+        stream.write(135);
+        writeValue(stream, ((PaymentProductFieldDisplayElement) value).toMap());
+      } else 
       if (value instanceof PaymentRequest) {
-        stream.write(132);
+        stream.write(136);
         writeValue(stream, ((PaymentRequest) value).toMap());
       } else 
       if (value instanceof PreparedPaymentRequest) {
-        stream.write(133);
+        stream.write(137);
         writeValue(stream, ((PreparedPaymentRequest) value).toMap());
       } else 
       if (value instanceof SessionRequest) {
-        stream.write(134);
+        stream.write(138);
         writeValue(stream, ((SessionRequest) value).toMap());
       } else 
       if (value instanceof SessionResponse) {
-        stream.write(135);
+        stream.write(139);
         writeValue(stream, ((SessionResponse) value).toMap());
+      } else 
+      if (value instanceof ValueMap) {
+        stream.write(140);
+        writeValue(stream, ((ValueMap) value).toMap());
       } else 
 {
         super.writeValue(stream, value);
@@ -475,6 +941,7 @@ public class Messages {
   /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
   public interface Api {
     SessionResponse initClientSession(SessionRequest request);
+    void _passThrough(PaymentProductField a, BasicPaymentProduct b, AbstractValidationRule c, ValueMap d, PaymentProductFieldDisplayElement e);
     void getBasicPaymentItems(PaymentContextRequest request, Result<PaymentContextResponse> result);
     void getPaymentProduct(GetPaymentProductRequest request, Result<PaymentProduct> result);
     void preparePaymentRequest(PaymentRequest request, Result<PreparedPaymentRequest> result);
@@ -500,6 +967,46 @@ public class Messages {
               }
               SessionResponse output = api.initClientSession(requestArg);
               wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.Api._passThrough", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              PaymentProductField aArg = (PaymentProductField)args.get(0);
+              if (aArg == null) {
+                throw new NullPointerException("aArg unexpectedly null.");
+              }
+              BasicPaymentProduct bArg = (BasicPaymentProduct)args.get(1);
+              if (bArg == null) {
+                throw new NullPointerException("bArg unexpectedly null.");
+              }
+              AbstractValidationRule cArg = (AbstractValidationRule)args.get(2);
+              if (cArg == null) {
+                throw new NullPointerException("cArg unexpectedly null.");
+              }
+              ValueMap dArg = (ValueMap)args.get(3);
+              if (dArg == null) {
+                throw new NullPointerException("dArg unexpectedly null.");
+              }
+              PaymentProductFieldDisplayElement eArg = (PaymentProductFieldDisplayElement)args.get(4);
+              if (eArg == null) {
+                throw new NullPointerException("eArg unexpectedly null.");
+              }
+              api._passThrough(aArg, bArg, cArg, dArg, eArg);
+              wrapped.put("result", null);
             }
             catch (Error | RuntimeException exception) {
               wrapped.put("error", wrapError(exception));

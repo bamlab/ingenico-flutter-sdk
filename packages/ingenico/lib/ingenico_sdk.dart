@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:ingenico_platform_interface/main.dart' hide PaymentProduct;
+import 'package:ingenico_platform_interface/main.dart'
+    hide PaymentProduct, BasicPaymentProduct;
 import 'package:ingenico_sdk/pigeon.dart';
 
 /// Class to interact with the Ingenico SDK

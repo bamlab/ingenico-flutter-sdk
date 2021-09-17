@@ -85,7 +85,8 @@ enum Type {
   integer,
   numericstring,
   expirydate,
-  boolean,
+  // To Prevent Collision
+  booleanEnum,
   date,
 }
 
@@ -120,18 +121,18 @@ enum ListType {
   list,
   currency,
   date,
-  boolean,
+  booleanEnum,
 }
 
 class FormElement {
   late ListType type;
-  late List<ValueMap> valueMapping;
+  late List<ValueMap?> valueMapping;
 }
 
 class ValueMap {
   late String value;
 
-  late List<PaymentProductFieldDisplayElement> displayElements;
+  late List<PaymentProductFieldDisplayElement?> displayElements;
 }
 
 class PaymentProductFieldDisplayElement {
@@ -164,7 +165,7 @@ enum ValidationType {
 class DataRestrictions {
   late bool isRequired;
 
-  late List<AbstractValidationRule> validationRules;
+  late List<AbstractValidationRule?> validationRules;
 }
 
 class AbstractValidationRule {
@@ -189,6 +190,15 @@ class PreparedPaymentRequest {
 @HostApi()
 abstract class Api {
   SessionResponse initClientSession(SessionRequest request);
+
+  // For proper object generation
+  // ignore: unused_element
+  void _passThrough(
+      PaymentProductField a,
+      BasicPaymentProduct b,
+      AbstractValidationRule c,
+      ValueMap d,
+      PaymentProductFieldDisplayElement e);
 
   @async
   PaymentContextResponse getBasicPaymentItems(PaymentContextRequest request);

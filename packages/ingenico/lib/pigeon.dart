@@ -8,6 +8,52 @@ import 'dart:typed_data' show Uint8List, Int32List, Int64List, Float64List;
 import 'package:flutter/foundation.dart' show WriteBuffer, ReadBuffer;
 import 'package:flutter/services.dart';
 
+enum Type {
+  string,
+  integer,
+  numericstring,
+  expirydate,
+  booleanEnum,
+  date,
+}
+
+enum PreferredInputType {
+  integerKeyboard,
+  stringKeyboard,
+  phoneNumberKeyboard,
+  emailAddressKeyboard,
+  dateKeyboard,
+}
+
+enum ListType {
+  text,
+  list,
+  currency,
+  date,
+  booleanEnum,
+}
+
+enum PaymentProductFieldDisplayElementType {
+  integer,
+  string,
+  currency,
+  percentage,
+  uri,
+}
+
+enum ValidationType {
+  expirationDate,
+  emailAdress,
+  fixedList,
+  iban,
+  length,
+  luhn,
+  range,
+  regularExpression,
+  type,
+  termsAndConditions,
+}
+
 class SessionRequest {
   String? clientSessionId;
   String? customerId;
@@ -130,6 +176,48 @@ class PaymentContextResponse {
   }
 }
 
+class BasicPaymentProduct {
+  String? id;
+  String? paymentMethod;
+  String? paymentProductGroup;
+  double? minAmount;
+  double? maxAmount;
+  bool? allowsRecurring;
+  bool? allowsTokenization;
+  bool? usesRedirectionTo3rdParty;
+  DisplayHintsPaymentItem? displayHints;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['id'] = id;
+    pigeonMap['paymentMethod'] = paymentMethod;
+    pigeonMap['paymentProductGroup'] = paymentProductGroup;
+    pigeonMap['minAmount'] = minAmount;
+    pigeonMap['maxAmount'] = maxAmount;
+    pigeonMap['allowsRecurring'] = allowsRecurring;
+    pigeonMap['allowsTokenization'] = allowsTokenization;
+    pigeonMap['usesRedirectionTo3rdParty'] = usesRedirectionTo3rdParty;
+    pigeonMap['displayHints'] = displayHints == null ? null : displayHints!.encode();
+    return pigeonMap;
+  }
+
+  static BasicPaymentProduct decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return BasicPaymentProduct()
+      ..id = pigeonMap['id'] as String?
+      ..paymentMethod = pigeonMap['paymentMethod'] as String?
+      ..paymentProductGroup = pigeonMap['paymentProductGroup'] as String?
+      ..minAmount = pigeonMap['minAmount'] as double?
+      ..maxAmount = pigeonMap['maxAmount'] as double?
+      ..allowsRecurring = pigeonMap['allowsRecurring'] as bool?
+      ..allowsTokenization = pigeonMap['allowsTokenization'] as bool?
+      ..usesRedirectionTo3rdParty = pigeonMap['usesRedirectionTo3rdParty'] as bool?
+      ..displayHints = pigeonMap['displayHints'] != null
+          ? DisplayHintsPaymentItem.decode(pigeonMap['displayHints']!)
+          : null;
+  }
+}
+
 class DisplayHintsPaymentItem {
   int? displayOrder;
   String? label;
@@ -197,6 +285,209 @@ class PaymentProduct {
   }
 }
 
+class PaymentProductField {
+  String? id;
+  Type? type;
+  DisplayHintsProductFields? displayHints;
+  DataRestrictions? dataRestrictions;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['id'] = id;
+    pigeonMap['type'] = type == null ? null : type!.index;
+    pigeonMap['displayHints'] = displayHints == null ? null : displayHints!.encode();
+    pigeonMap['dataRestrictions'] = dataRestrictions == null ? null : dataRestrictions!.encode();
+    return pigeonMap;
+  }
+
+  static PaymentProductField decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return PaymentProductField()
+      ..id = pigeonMap['id'] as String?
+      ..type = pigeonMap['type'] != null
+          ? Type.values[pigeonMap['type']! as int]
+          : null
+      ..displayHints = pigeonMap['displayHints'] != null
+          ? DisplayHintsProductFields.decode(pigeonMap['displayHints']!)
+          : null
+      ..dataRestrictions = pigeonMap['dataRestrictions'] != null
+          ? DataRestrictions.decode(pigeonMap['dataRestrictions']!)
+          : null;
+  }
+}
+
+class DisplayHintsProductFields {
+  bool? alwaysShow;
+  bool? obfuscate;
+  int? displayOrder;
+  String? label;
+  String? placeholderLabel;
+  String? link;
+  String? mask;
+  PreferredInputType? preferredInputType;
+  Tooltip? tooltip;
+  FormElement? formElement;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['alwaysShow'] = alwaysShow;
+    pigeonMap['obfuscate'] = obfuscate;
+    pigeonMap['displayOrder'] = displayOrder;
+    pigeonMap['label'] = label;
+    pigeonMap['placeholderLabel'] = placeholderLabel;
+    pigeonMap['link'] = link;
+    pigeonMap['mask'] = mask;
+    pigeonMap['preferredInputType'] = preferredInputType == null ? null : preferredInputType!.index;
+    pigeonMap['tooltip'] = tooltip == null ? null : tooltip!.encode();
+    pigeonMap['formElement'] = formElement == null ? null : formElement!.encode();
+    return pigeonMap;
+  }
+
+  static DisplayHintsProductFields decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return DisplayHintsProductFields()
+      ..alwaysShow = pigeonMap['alwaysShow'] as bool?
+      ..obfuscate = pigeonMap['obfuscate'] as bool?
+      ..displayOrder = pigeonMap['displayOrder'] as int?
+      ..label = pigeonMap['label'] as String?
+      ..placeholderLabel = pigeonMap['placeholderLabel'] as String?
+      ..link = pigeonMap['link'] as String?
+      ..mask = pigeonMap['mask'] as String?
+      ..preferredInputType = pigeonMap['preferredInputType'] != null
+          ? PreferredInputType.values[pigeonMap['preferredInputType']! as int]
+          : null
+      ..tooltip = pigeonMap['tooltip'] != null
+          ? Tooltip.decode(pigeonMap['tooltip']!)
+          : null
+      ..formElement = pigeonMap['formElement'] != null
+          ? FormElement.decode(pigeonMap['formElement']!)
+          : null;
+  }
+}
+
+class Tooltip {
+  String? image;
+  String? label;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['image'] = image;
+    pigeonMap['label'] = label;
+    return pigeonMap;
+  }
+
+  static Tooltip decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return Tooltip()
+      ..image = pigeonMap['image'] as String?
+      ..label = pigeonMap['label'] as String?;
+  }
+}
+
+class FormElement {
+  ListType? type;
+  List<ValueMap?>? valueMapping;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['type'] = type == null ? null : type!.index;
+    pigeonMap['valueMapping'] = valueMapping;
+    return pigeonMap;
+  }
+
+  static FormElement decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return FormElement()
+      ..type = pigeonMap['type'] != null
+          ? ListType.values[pigeonMap['type']! as int]
+          : null
+      ..valueMapping = (pigeonMap['valueMapping'] as List<Object?>?)?.cast<ValueMap?>();
+  }
+}
+
+class ValueMap {
+  String? value;
+  List<PaymentProductFieldDisplayElement?>? displayElements;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['value'] = value;
+    pigeonMap['displayElements'] = displayElements;
+    return pigeonMap;
+  }
+
+  static ValueMap decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return ValueMap()
+      ..value = pigeonMap['value'] as String?
+      ..displayElements = (pigeonMap['displayElements'] as List<Object?>?)?.cast<PaymentProductFieldDisplayElement?>();
+  }
+}
+
+class PaymentProductFieldDisplayElement {
+  String? id;
+  PaymentProductFieldDisplayElementType? type;
+  String? value;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['id'] = id;
+    pigeonMap['type'] = type == null ? null : type!.index;
+    pigeonMap['value'] = value;
+    return pigeonMap;
+  }
+
+  static PaymentProductFieldDisplayElement decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return PaymentProductFieldDisplayElement()
+      ..id = pigeonMap['id'] as String?
+      ..type = pigeonMap['type'] != null
+          ? PaymentProductFieldDisplayElementType.values[pigeonMap['type']! as int]
+          : null
+      ..value = pigeonMap['value'] as String?;
+  }
+}
+
+class DataRestrictions {
+  bool? isRequired;
+  List<AbstractValidationRule?>? validationRules;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['isRequired'] = isRequired;
+    pigeonMap['validationRules'] = validationRules;
+    return pigeonMap;
+  }
+
+  static DataRestrictions decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return DataRestrictions()
+      ..isRequired = pigeonMap['isRequired'] as bool?
+      ..validationRules = (pigeonMap['validationRules'] as List<Object?>?)?.cast<AbstractValidationRule?>();
+  }
+}
+
+class AbstractValidationRule {
+  String? messageId;
+  ValidationType? type;
+
+  Object encode() {
+    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
+    pigeonMap['messageId'] = messageId;
+    pigeonMap['type'] = type == null ? null : type!.index;
+    return pigeonMap;
+  }
+
+  static AbstractValidationRule decode(Object message) {
+    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
+    return AbstractValidationRule()
+      ..messageId = pigeonMap['messageId'] as String?
+      ..type = pigeonMap['type'] != null
+          ? ValidationType.values[pigeonMap['type']! as int]
+          : null;
+  }
+}
+
 class PaymentRequest {
   Map<String?, String?>? values;
   String? paymentProductId;
@@ -245,36 +536,56 @@ class _ApiCodec extends StandardMessageCodec {
   const _ApiCodec();
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
-    if (value is GetPaymentProductRequest) {
+    if (value is AbstractValidationRule) {
       buffer.putUint8(128);
       writeValue(buffer, value.encode());
     } else 
-    if (value is PaymentContextRequest) {
+    if (value is BasicPaymentProduct) {
       buffer.putUint8(129);
       writeValue(buffer, value.encode());
     } else 
-    if (value is PaymentContextResponse) {
+    if (value is GetPaymentProductRequest) {
       buffer.putUint8(130);
       writeValue(buffer, value.encode());
     } else 
-    if (value is PaymentProduct) {
+    if (value is PaymentContextRequest) {
       buffer.putUint8(131);
       writeValue(buffer, value.encode());
     } else 
-    if (value is PaymentRequest) {
+    if (value is PaymentContextResponse) {
       buffer.putUint8(132);
       writeValue(buffer, value.encode());
     } else 
-    if (value is PreparedPaymentRequest) {
+    if (value is PaymentProduct) {
       buffer.putUint8(133);
       writeValue(buffer, value.encode());
     } else 
-    if (value is SessionRequest) {
+    if (value is PaymentProductField) {
       buffer.putUint8(134);
       writeValue(buffer, value.encode());
     } else 
-    if (value is SessionResponse) {
+    if (value is PaymentProductFieldDisplayElement) {
       buffer.putUint8(135);
+      writeValue(buffer, value.encode());
+    } else 
+    if (value is PaymentRequest) {
+      buffer.putUint8(136);
+      writeValue(buffer, value.encode());
+    } else 
+    if (value is PreparedPaymentRequest) {
+      buffer.putUint8(137);
+      writeValue(buffer, value.encode());
+    } else 
+    if (value is SessionRequest) {
+      buffer.putUint8(138);
+      writeValue(buffer, value.encode());
+    } else 
+    if (value is SessionResponse) {
+      buffer.putUint8(139);
+      writeValue(buffer, value.encode());
+    } else 
+    if (value is ValueMap) {
+      buffer.putUint8(140);
       writeValue(buffer, value.encode());
     } else 
 {
@@ -285,28 +596,43 @@ class _ApiCodec extends StandardMessageCodec {
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
       case 128:       
-        return GetPaymentProductRequest.decode(readValue(buffer)!);
+        return AbstractValidationRule.decode(readValue(buffer)!);
       
       case 129:       
-        return PaymentContextRequest.decode(readValue(buffer)!);
+        return BasicPaymentProduct.decode(readValue(buffer)!);
       
       case 130:       
-        return PaymentContextResponse.decode(readValue(buffer)!);
+        return GetPaymentProductRequest.decode(readValue(buffer)!);
       
       case 131:       
-        return PaymentProduct.decode(readValue(buffer)!);
+        return PaymentContextRequest.decode(readValue(buffer)!);
       
       case 132:       
-        return PaymentRequest.decode(readValue(buffer)!);
+        return PaymentContextResponse.decode(readValue(buffer)!);
       
       case 133:       
-        return PreparedPaymentRequest.decode(readValue(buffer)!);
+        return PaymentProduct.decode(readValue(buffer)!);
       
       case 134:       
-        return SessionRequest.decode(readValue(buffer)!);
+        return PaymentProductField.decode(readValue(buffer)!);
       
       case 135:       
+        return PaymentProductFieldDisplayElement.decode(readValue(buffer)!);
+      
+      case 136:       
+        return PaymentRequest.decode(readValue(buffer)!);
+      
+      case 137:       
+        return PreparedPaymentRequest.decode(readValue(buffer)!);
+      
+      case 138:       
+        return SessionRequest.decode(readValue(buffer)!);
+      
+      case 139:       
         return SessionResponse.decode(readValue(buffer)!);
+      
+      case 140:       
+        return ValueMap.decode(readValue(buffer)!);
       
       default:      
         return super.readValueOfType(type, buffer);
@@ -345,6 +671,29 @@ class Api {
       );
     } else {
       return (replyMap['result'] as SessionResponse?)!;
+    }
+  }
+
+  Future<void> _passThrough(PaymentProductField arg_a, BasicPaymentProduct arg_b, AbstractValidationRule arg_c, ValueMap arg_d, PaymentProductFieldDisplayElement arg_e) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.Api._passThrough', codec, binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object>[arg_a, arg_b, arg_c, arg_d, arg_e]) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+        details: null,
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else {
+      return;
     }
   }
 

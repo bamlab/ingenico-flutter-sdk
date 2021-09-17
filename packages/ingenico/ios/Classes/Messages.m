@@ -42,12 +42,48 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
 + (FLTPaymentContextResponse *)fromMap:(NSDictionary *)dict;
 - (NSDictionary *)toMap;
 @end
+@interface FLTBasicPaymentProduct ()
++ (FLTBasicPaymentProduct *)fromMap:(NSDictionary *)dict;
+- (NSDictionary *)toMap;
+@end
 @interface FLTDisplayHintsPaymentItem ()
 + (FLTDisplayHintsPaymentItem *)fromMap:(NSDictionary *)dict;
 - (NSDictionary *)toMap;
 @end
 @interface FLTPaymentProduct ()
 + (FLTPaymentProduct *)fromMap:(NSDictionary *)dict;
+- (NSDictionary *)toMap;
+@end
+@interface FLTPaymentProductField ()
++ (FLTPaymentProductField *)fromMap:(NSDictionary *)dict;
+- (NSDictionary *)toMap;
+@end
+@interface FLTDisplayHintsProductFields ()
++ (FLTDisplayHintsProductFields *)fromMap:(NSDictionary *)dict;
+- (NSDictionary *)toMap;
+@end
+@interface FLTTooltip ()
++ (FLTTooltip *)fromMap:(NSDictionary *)dict;
+- (NSDictionary *)toMap;
+@end
+@interface FLTFormElement ()
++ (FLTFormElement *)fromMap:(NSDictionary *)dict;
+- (NSDictionary *)toMap;
+@end
+@interface FLTValueMap ()
++ (FLTValueMap *)fromMap:(NSDictionary *)dict;
+- (NSDictionary *)toMap;
+@end
+@interface FLTPaymentProductFieldDisplayElement ()
++ (FLTPaymentProductFieldDisplayElement *)fromMap:(NSDictionary *)dict;
+- (NSDictionary *)toMap;
+@end
+@interface FLTDataRestrictions ()
++ (FLTDataRestrictions *)fromMap:(NSDictionary *)dict;
+- (NSDictionary *)toMap;
+@end
+@interface FLTAbstractValidationRule ()
++ (FLTAbstractValidationRule *)fromMap:(NSDictionary *)dict;
 - (NSDictionary *)toMap;
 @end
 @interface FLTPaymentRequest ()
@@ -185,6 +221,52 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
 }
 @end
 
+@implementation FLTBasicPaymentProduct
++ (FLTBasicPaymentProduct *)fromMap:(NSDictionary *)dict {
+  FLTBasicPaymentProduct *result = [[FLTBasicPaymentProduct alloc] init];
+  result.id = dict[@"id"];
+  if ((NSNull *)result.id == [NSNull null]) {
+    result.id = nil;
+  }
+  result.paymentMethod = dict[@"paymentMethod"];
+  if ((NSNull *)result.paymentMethod == [NSNull null]) {
+    result.paymentMethod = nil;
+  }
+  result.paymentProductGroup = dict[@"paymentProductGroup"];
+  if ((NSNull *)result.paymentProductGroup == [NSNull null]) {
+    result.paymentProductGroup = nil;
+  }
+  result.minAmount = dict[@"minAmount"];
+  if ((NSNull *)result.minAmount == [NSNull null]) {
+    result.minAmount = nil;
+  }
+  result.maxAmount = dict[@"maxAmount"];
+  if ((NSNull *)result.maxAmount == [NSNull null]) {
+    result.maxAmount = nil;
+  }
+  result.allowsRecurring = dict[@"allowsRecurring"];
+  if ((NSNull *)result.allowsRecurring == [NSNull null]) {
+    result.allowsRecurring = nil;
+  }
+  result.allowsTokenization = dict[@"allowsTokenization"];
+  if ((NSNull *)result.allowsTokenization == [NSNull null]) {
+    result.allowsTokenization = nil;
+  }
+  result.usesRedirectionTo3rdParty = dict[@"usesRedirectionTo3rdParty"];
+  if ((NSNull *)result.usesRedirectionTo3rdParty == [NSNull null]) {
+    result.usesRedirectionTo3rdParty = nil;
+  }
+  result.displayHints = [FLTDisplayHintsPaymentItem fromMap:dict[@"displayHints"]];
+  if ((NSNull *)result.displayHints == [NSNull null]) {
+    result.displayHints = nil;
+  }
+  return result;
+}
+- (NSDictionary *)toMap {
+  return [NSDictionary dictionaryWithObjectsAndKeys:(self.id ? self.id : [NSNull null]), @"id", (self.paymentMethod ? self.paymentMethod : [NSNull null]), @"paymentMethod", (self.paymentProductGroup ? self.paymentProductGroup : [NSNull null]), @"paymentProductGroup", (self.minAmount ? self.minAmount : [NSNull null]), @"minAmount", (self.maxAmount ? self.maxAmount : [NSNull null]), @"maxAmount", (self.allowsRecurring ? self.allowsRecurring : [NSNull null]), @"allowsRecurring", (self.allowsTokenization ? self.allowsTokenization : [NSNull null]), @"allowsTokenization", (self.usesRedirectionTo3rdParty ? self.usesRedirectionTo3rdParty : [NSNull null]), @"usesRedirectionTo3rdParty", (self.displayHints ? [self.displayHints toMap] : [NSNull null]), @"displayHints", nil];
+}
+@end
+
 @implementation FLTDisplayHintsPaymentItem
 + (FLTDisplayHintsPaymentItem *)fromMap:(NSDictionary *)dict {
   FLTDisplayHintsPaymentItem *result = [[FLTDisplayHintsPaymentItem alloc] init];
@@ -257,6 +339,179 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
 }
 @end
 
+@implementation FLTPaymentProductField
++ (FLTPaymentProductField *)fromMap:(NSDictionary *)dict {
+  FLTPaymentProductField *result = [[FLTPaymentProductField alloc] init];
+  result.id = dict[@"id"];
+  if ((NSNull *)result.id == [NSNull null]) {
+    result.id = nil;
+  }
+  result.type = [dict[@"type"] integerValue];
+  result.displayHints = [FLTDisplayHintsProductFields fromMap:dict[@"displayHints"]];
+  if ((NSNull *)result.displayHints == [NSNull null]) {
+    result.displayHints = nil;
+  }
+  result.dataRestrictions = [FLTDataRestrictions fromMap:dict[@"dataRestrictions"]];
+  if ((NSNull *)result.dataRestrictions == [NSNull null]) {
+    result.dataRestrictions = nil;
+  }
+  return result;
+}
+- (NSDictionary *)toMap {
+  return [NSDictionary dictionaryWithObjectsAndKeys:(self.id ? self.id : [NSNull null]), @"id", @(self.type), @"type", (self.displayHints ? [self.displayHints toMap] : [NSNull null]), @"displayHints", (self.dataRestrictions ? [self.dataRestrictions toMap] : [NSNull null]), @"dataRestrictions", nil];
+}
+@end
+
+@implementation FLTDisplayHintsProductFields
++ (FLTDisplayHintsProductFields *)fromMap:(NSDictionary *)dict {
+  FLTDisplayHintsProductFields *result = [[FLTDisplayHintsProductFields alloc] init];
+  result.alwaysShow = dict[@"alwaysShow"];
+  if ((NSNull *)result.alwaysShow == [NSNull null]) {
+    result.alwaysShow = nil;
+  }
+  result.obfuscate = dict[@"obfuscate"];
+  if ((NSNull *)result.obfuscate == [NSNull null]) {
+    result.obfuscate = nil;
+  }
+  result.displayOrder = dict[@"displayOrder"];
+  if ((NSNull *)result.displayOrder == [NSNull null]) {
+    result.displayOrder = nil;
+  }
+  result.label = dict[@"label"];
+  if ((NSNull *)result.label == [NSNull null]) {
+    result.label = nil;
+  }
+  result.placeholderLabel = dict[@"placeholderLabel"];
+  if ((NSNull *)result.placeholderLabel == [NSNull null]) {
+    result.placeholderLabel = nil;
+  }
+  result.link = dict[@"link"];
+  if ((NSNull *)result.link == [NSNull null]) {
+    result.link = nil;
+  }
+  result.mask = dict[@"mask"];
+  if ((NSNull *)result.mask == [NSNull null]) {
+    result.mask = nil;
+  }
+  result.preferredInputType = [dict[@"preferredInputType"] integerValue];
+  result.tooltip = [FLTTooltip fromMap:dict[@"tooltip"]];
+  if ((NSNull *)result.tooltip == [NSNull null]) {
+    result.tooltip = nil;
+  }
+  result.formElement = [FLTFormElement fromMap:dict[@"formElement"]];
+  if ((NSNull *)result.formElement == [NSNull null]) {
+    result.formElement = nil;
+  }
+  return result;
+}
+- (NSDictionary *)toMap {
+  return [NSDictionary dictionaryWithObjectsAndKeys:(self.alwaysShow ? self.alwaysShow : [NSNull null]), @"alwaysShow", (self.obfuscate ? self.obfuscate : [NSNull null]), @"obfuscate", (self.displayOrder ? self.displayOrder : [NSNull null]), @"displayOrder", (self.label ? self.label : [NSNull null]), @"label", (self.placeholderLabel ? self.placeholderLabel : [NSNull null]), @"placeholderLabel", (self.link ? self.link : [NSNull null]), @"link", (self.mask ? self.mask : [NSNull null]), @"mask", @(self.preferredInputType), @"preferredInputType", (self.tooltip ? [self.tooltip toMap] : [NSNull null]), @"tooltip", (self.formElement ? [self.formElement toMap] : [NSNull null]), @"formElement", nil];
+}
+@end
+
+@implementation FLTTooltip
++ (FLTTooltip *)fromMap:(NSDictionary *)dict {
+  FLTTooltip *result = [[FLTTooltip alloc] init];
+  result.image = dict[@"image"];
+  if ((NSNull *)result.image == [NSNull null]) {
+    result.image = nil;
+  }
+  result.label = dict[@"label"];
+  if ((NSNull *)result.label == [NSNull null]) {
+    result.label = nil;
+  }
+  return result;
+}
+- (NSDictionary *)toMap {
+  return [NSDictionary dictionaryWithObjectsAndKeys:(self.image ? self.image : [NSNull null]), @"image", (self.label ? self.label : [NSNull null]), @"label", nil];
+}
+@end
+
+@implementation FLTFormElement
++ (FLTFormElement *)fromMap:(NSDictionary *)dict {
+  FLTFormElement *result = [[FLTFormElement alloc] init];
+  result.type = [dict[@"type"] integerValue];
+  result.valueMapping = dict[@"valueMapping"];
+  if ((NSNull *)result.valueMapping == [NSNull null]) {
+    result.valueMapping = nil;
+  }
+  return result;
+}
+- (NSDictionary *)toMap {
+  return [NSDictionary dictionaryWithObjectsAndKeys:@(self.type), @"type", (self.valueMapping ? self.valueMapping : [NSNull null]), @"valueMapping", nil];
+}
+@end
+
+@implementation FLTValueMap
++ (FLTValueMap *)fromMap:(NSDictionary *)dict {
+  FLTValueMap *result = [[FLTValueMap alloc] init];
+  result.value = dict[@"value"];
+  if ((NSNull *)result.value == [NSNull null]) {
+    result.value = nil;
+  }
+  result.displayElements = dict[@"displayElements"];
+  if ((NSNull *)result.displayElements == [NSNull null]) {
+    result.displayElements = nil;
+  }
+  return result;
+}
+- (NSDictionary *)toMap {
+  return [NSDictionary dictionaryWithObjectsAndKeys:(self.value ? self.value : [NSNull null]), @"value", (self.displayElements ? self.displayElements : [NSNull null]), @"displayElements", nil];
+}
+@end
+
+@implementation FLTPaymentProductFieldDisplayElement
++ (FLTPaymentProductFieldDisplayElement *)fromMap:(NSDictionary *)dict {
+  FLTPaymentProductFieldDisplayElement *result = [[FLTPaymentProductFieldDisplayElement alloc] init];
+  result.id = dict[@"id"];
+  if ((NSNull *)result.id == [NSNull null]) {
+    result.id = nil;
+  }
+  result.type = [dict[@"type"] integerValue];
+  result.value = dict[@"value"];
+  if ((NSNull *)result.value == [NSNull null]) {
+    result.value = nil;
+  }
+  return result;
+}
+- (NSDictionary *)toMap {
+  return [NSDictionary dictionaryWithObjectsAndKeys:(self.id ? self.id : [NSNull null]), @"id", @(self.type), @"type", (self.value ? self.value : [NSNull null]), @"value", nil];
+}
+@end
+
+@implementation FLTDataRestrictions
++ (FLTDataRestrictions *)fromMap:(NSDictionary *)dict {
+  FLTDataRestrictions *result = [[FLTDataRestrictions alloc] init];
+  result.isRequired = dict[@"isRequired"];
+  if ((NSNull *)result.isRequired == [NSNull null]) {
+    result.isRequired = nil;
+  }
+  result.validationRules = dict[@"validationRules"];
+  if ((NSNull *)result.validationRules == [NSNull null]) {
+    result.validationRules = nil;
+  }
+  return result;
+}
+- (NSDictionary *)toMap {
+  return [NSDictionary dictionaryWithObjectsAndKeys:(self.isRequired ? self.isRequired : [NSNull null]), @"isRequired", (self.validationRules ? self.validationRules : [NSNull null]), @"validationRules", nil];
+}
+@end
+
+@implementation FLTAbstractValidationRule
++ (FLTAbstractValidationRule *)fromMap:(NSDictionary *)dict {
+  FLTAbstractValidationRule *result = [[FLTAbstractValidationRule alloc] init];
+  result.messageId = dict[@"messageId"];
+  if ((NSNull *)result.messageId == [NSNull null]) {
+    result.messageId = nil;
+  }
+  result.type = [dict[@"type"] integerValue];
+  return result;
+}
+- (NSDictionary *)toMap {
+  return [NSDictionary dictionaryWithObjectsAndKeys:(self.messageId ? self.messageId : [NSNull null]), @"messageId", @(self.type), @"type", nil];
+}
+@end
+
 @implementation FLTPaymentRequest
 + (FLTPaymentRequest *)fromMap:(NSDictionary *)dict {
   FLTPaymentRequest *result = [[FLTPaymentRequest alloc] init];
@@ -308,28 +563,43 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
 {
   switch (type) {
     case 128:     
-      return [FLTGetPaymentProductRequest fromMap:[self readValue]];
+      return [FLTAbstractValidationRule fromMap:[self readValue]];
     
     case 129:     
-      return [FLTPaymentContextRequest fromMap:[self readValue]];
+      return [FLTBasicPaymentProduct fromMap:[self readValue]];
     
     case 130:     
-      return [FLTPaymentContextResponse fromMap:[self readValue]];
+      return [FLTGetPaymentProductRequest fromMap:[self readValue]];
     
     case 131:     
-      return [FLTPaymentProduct fromMap:[self readValue]];
+      return [FLTPaymentContextRequest fromMap:[self readValue]];
     
     case 132:     
-      return [FLTPaymentRequest fromMap:[self readValue]];
+      return [FLTPaymentContextResponse fromMap:[self readValue]];
     
     case 133:     
-      return [FLTPreparedPaymentRequest fromMap:[self readValue]];
+      return [FLTPaymentProduct fromMap:[self readValue]];
     
     case 134:     
-      return [FLTSessionRequest fromMap:[self readValue]];
+      return [FLTPaymentProductField fromMap:[self readValue]];
     
     case 135:     
+      return [FLTPaymentProductFieldDisplayElement fromMap:[self readValue]];
+    
+    case 136:     
+      return [FLTPaymentRequest fromMap:[self readValue]];
+    
+    case 137:     
+      return [FLTPreparedPaymentRequest fromMap:[self readValue]];
+    
+    case 138:     
+      return [FLTSessionRequest fromMap:[self readValue]];
+    
+    case 139:     
       return [FLTSessionResponse fromMap:[self readValue]];
+    
+    case 140:     
+      return [FLTValueMap fromMap:[self readValue]];
     
     default:    
       return [super readValueOfType:type];
@@ -343,36 +613,56 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
 @implementation FLTApiCodecWriter
 - (void)writeValue:(id)value 
 {
-  if ([value isKindOfClass:[FLTGetPaymentProductRequest class]]) {
+  if ([value isKindOfClass:[FLTAbstractValidationRule class]]) {
     [self writeByte:128];
     [self writeValue:[value toMap]];
   } else 
-  if ([value isKindOfClass:[FLTPaymentContextRequest class]]) {
+  if ([value isKindOfClass:[FLTBasicPaymentProduct class]]) {
     [self writeByte:129];
     [self writeValue:[value toMap]];
   } else 
-  if ([value isKindOfClass:[FLTPaymentContextResponse class]]) {
+  if ([value isKindOfClass:[FLTGetPaymentProductRequest class]]) {
     [self writeByte:130];
     [self writeValue:[value toMap]];
   } else 
-  if ([value isKindOfClass:[FLTPaymentProduct class]]) {
+  if ([value isKindOfClass:[FLTPaymentContextRequest class]]) {
     [self writeByte:131];
     [self writeValue:[value toMap]];
   } else 
-  if ([value isKindOfClass:[FLTPaymentRequest class]]) {
+  if ([value isKindOfClass:[FLTPaymentContextResponse class]]) {
     [self writeByte:132];
     [self writeValue:[value toMap]];
   } else 
-  if ([value isKindOfClass:[FLTPreparedPaymentRequest class]]) {
+  if ([value isKindOfClass:[FLTPaymentProduct class]]) {
     [self writeByte:133];
     [self writeValue:[value toMap]];
   } else 
-  if ([value isKindOfClass:[FLTSessionRequest class]]) {
+  if ([value isKindOfClass:[FLTPaymentProductField class]]) {
     [self writeByte:134];
     [self writeValue:[value toMap]];
   } else 
-  if ([value isKindOfClass:[FLTSessionResponse class]]) {
+  if ([value isKindOfClass:[FLTPaymentProductFieldDisplayElement class]]) {
     [self writeByte:135];
+    [self writeValue:[value toMap]];
+  } else 
+  if ([value isKindOfClass:[FLTPaymentRequest class]]) {
+    [self writeByte:136];
+    [self writeValue:[value toMap]];
+  } else 
+  if ([value isKindOfClass:[FLTPreparedPaymentRequest class]]) {
+    [self writeByte:137];
+    [self writeValue:[value toMap]];
+  } else 
+  if ([value isKindOfClass:[FLTSessionRequest class]]) {
+    [self writeByte:138];
+    [self writeValue:[value toMap]];
+  } else 
+  if ([value isKindOfClass:[FLTSessionResponse class]]) {
+    [self writeByte:139];
+    [self writeValue:[value toMap]];
+  } else 
+  if ([value isKindOfClass:[FLTValueMap class]]) {
+    [self writeByte:140];
     [self writeValue:[value toMap]];
   } else 
 {
@@ -418,6 +708,30 @@ void FLTApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<FLTApi> *a
         FlutterError *error;
         FLTSessionResponse *output = [api initClientSessionRequest:arg_request error:&error];
         callback(wrapResult(output, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [FlutterBasicMessageChannel
+        messageChannelWithName:@"dev.flutter.pigeon.Api._passThrough"
+        binaryMessenger:binaryMessenger
+        codec:FLTApiGetCodec()];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(_passThroughA:b:c:d:e:error:)], @"FLTApi api (%@) doesn't respond to @selector(_passThroughA:b:c:d:e:error:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FLTPaymentProductField *arg_a = args[0];
+        FLTBasicPaymentProduct *arg_b = args[1];
+        FLTAbstractValidationRule *arg_c = args[2];
+        FLTValueMap *arg_d = args[3];
+        FLTPaymentProductFieldDisplayElement *arg_e = args[4];
+        FlutterError *error;
+        [api _passThroughA:arg_a b:arg_b c:arg_c d:arg_d e:arg_e error:&error];
+        callback(wrapResult(nil, error));
       }];
     }
     else {

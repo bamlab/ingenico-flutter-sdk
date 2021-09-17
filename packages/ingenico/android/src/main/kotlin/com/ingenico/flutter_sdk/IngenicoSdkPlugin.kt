@@ -7,9 +7,9 @@ import com.ingenico.direct.sdk.client.android.asynctask.PaymentProductAsyncTask
 import com.ingenico.direct.sdk.client.android.communicate.C2sCommunicatorConfiguration
 import com.ingenico.direct.sdk.client.android.model.*
 import com.ingenico.direct.sdk.client.android.model.api.ErrorResponse
-import com.ingenico.direct.sdk.client.android.model.paymentproduct.BasicPaymentItems
-import com.ingenico.direct.sdk.client.android.model.paymentproduct.BasicPaymentProducts
-import com.ingenico.direct.sdk.client.android.model.paymentproduct.PaymentProduct
+import com.ingenico.direct.sdk.client.android.model.paymentproduct.*
+import com.ingenico.direct.sdk.client.android.model.paymentproduct.displayhints.DisplayHintsPaymentItem
+import com.ingenico.direct.sdk.client.android.model.validation.ValidationRule
 import com.ingenico.direct.sdk.client.android.session.Session
 import com.ingenico.direct.sdk.client.android.session.SessionEncryptionHelper.OnPaymentRequestPreparedListener
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -53,6 +53,70 @@ class IngenicoSdkPlugin : FlutterPlugin, Messages.Api {
         return messageSession
     }
 
+    override fun _passThrough(
+        a: Messages.PaymentProductField?,
+        b: Messages.BasicPaymentProduct?,
+        c: Messages.AbstractValidationRule?,
+        d: Messages.ValueMap?,
+        e: Messages.PaymentProductFieldDisplayElement?
+    ) {
+    }
+
+    private fun mapDisplayHints(displayHints: DisplayHintsPaymentItem): Messages.DisplayHintsPaymentItem {
+        var mapped = Messages.DisplayHintsPaymentItem()
+        mapped.displayOrder = displayHints.displayOrder.toLong()
+        mapped.label = displayHints.label
+        mapped.logoUrl = displayHints.logoUrl
+        return mapped
+    }
+
+    private fun mapBasicPaymentProduct(basicPaymentProduct: BasicPaymentProduct): Messages.BasicPaymentProduct {
+        var mapped = Messages.BasicPaymentProduct()
+        mapped.allowsRecurring = basicPaymentProduct.allowsRecurring()
+        mapped.allowsTokenization = basicPaymentProduct.allowsTokenization()
+        mapped.displayHints = mapDisplayHints(basicPaymentProduct.displayHints)
+        mapped.id = basicPaymentProduct.id
+        mapped.maxAmount = basicPaymentProduct.maxAmount.toDouble()
+        mapped.minAmount = basicPaymentProduct.minAmount.toDouble()
+        mapped.paymentMethod = basicPaymentProduct.paymentMethod
+        mapped.paymentProductGroup = basicPaymentProduct.paymentProductGroup
+        mapped.usesRedirectionTo3rdParty = basicPaymentProduct.usesRedirectionTo3rdParty()
+
+        return mapped;
+    }
+
+    private fun mapBasicPaymentItem(basicPaymentProduct: BasicPaymentItem): Messages.BasicPaymentProduct {
+        var mapped = Messages.BasicPaymentProduct()
+        mapped.displayHints = mapDisplayHints(basicPaymentProduct.displayHints)
+        mapped.id = basicPaymentProduct.id
+
+        return mapped;
+    }
+
+
+    private fun mapType(basicPaymentProduct: PaymentProductField.Type): Messages.Type {
+        return when (basicPaymentProduct) {
+            PaymentProductField.Type.STRING -> Messages.Type.string
+            PaymentProductField.Type.INTEGER -> Messages.Type.integer
+            PaymentProductField.Type.NUMERICSTRING -> Messages.Type.numericstring
+            PaymentProductField.Type.EXPIRYDATE -> Messages.Type.expirydate
+            PaymentProductField.Type.BOOLEAN -> Messages.Type.booleanEnum
+            PaymentProductField.Type.DATE -> Messages.Type.date
+        }
+    }
+
+
+
+    private fun mapPaymentProductField(paymentProductField: PaymentProductField): Messages.PaymentProductField {
+        var mapped = Messages.PaymentProductField()
+        mapped.id = paymentProductField.id
+        mapped.type = mapType(paymentProductField.type)
+
+        return mapped;
+    }
+
+
+
     override fun getBasicPaymentItems(
         arg: Messages.PaymentContextRequest,
         result: Messages.Result<Messages.PaymentContextResponse>
@@ -69,16 +133,20 @@ class IngenicoSdkPlugin : FlutterPlugin, Messages.Api {
             override fun onBasicPaymentItemsCallComplete(basicPaymentItems: BasicPaymentItems) {
 
                 val response = Messages.PaymentContextResponse()
+
                 if (basicPaymentItems is BasicPaymentProducts) {
                     val basicPaymentProducts = basicPaymentItems as BasicPaymentProducts
-                    response.basicPaymentProduct =
-                        basicPaymentProducts.basicPaymentProducts as List<Any>?
+                    response.basicPaymentProduct = basicPaymentProducts.basicPaymentProducts.map{
+                        mapBasicPaymentProduct(it)
+                    }
                     result.success(response)
                     return
                 }
-
-                response.basicPaymentProduct = basicPaymentItems.basicPaymentItems as List<Any>?
+                response.basicPaymentProduct = basicPaymentItems.basicPaymentItems.map{
+                    mapBasicPaymentItem(it)
+                }
                 result.success(response)
+
             }
 
             override fun onBasicPaymentItemsCallError(error: ErrorResponse) {
@@ -101,7 +169,7 @@ class IngenicoSdkPlugin : FlutterPlugin, Messages.Api {
             override fun onPaymentProductCallComplete(paymentProduct: PaymentProduct) {
                 val response = Messages.PaymentProduct()
                 paymentProductMap[paymentProduct.id] = paymentProduct
-                response.fields = paymentProduct.paymentProductFields as List<Any>?
+                response.fields = paymentProduct.paymentProductFields.map { mapPaymentProductField(it) }
                 result.success(response)
             }
 
@@ -131,7 +199,7 @@ class IngenicoSdkPlugin : FlutterPlugin, Messages.Api {
         val paymentRequest = PaymentRequest()
         paymentRequest.paymentProduct = paymentProductMap[arg.paymentProductId]
         paymentRequest.tokenize = arg.tokenize
-        arg.values.entries.map { e -> paymentRequest.setValue(e.key as String, e.value as String) }
+        arg.values.entries.forEach { e -> paymentRequest.setValue(e.key as String, e.value as String) }
 
         val listener =
             OnPaymentRequestPreparedListener { preparedPaymentRequest ->
