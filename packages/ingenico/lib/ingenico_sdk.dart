@@ -34,7 +34,7 @@ class IngenicoSdk implements IngenicoPlatform {
     sessionRequest.environmentIsProduction = environmentIsProduction;
     sessionRequest.applicationIdentifier = applicationIdentifier;
 
-    final session = await _api.initClientSession(sessionRequest);
+    final session = await _api.createClientSession(sessionRequest);
 
     return Session(session.sessionId!);
   }

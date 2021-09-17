@@ -940,7 +940,7 @@ public class Messages {
 
   /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
   public interface Api {
-    SessionResponse initClientSession(SessionRequest request);
+    SessionResponse createClientSession(SessionRequest request);
     void _passThrough(PaymentProductField a, BasicPaymentProduct b, AbstractValidationRule c, ValueMap d, PaymentProductFieldDisplayElement e);
     void getBasicPaymentItems(PaymentContextRequest request, Result<PaymentContextResponse> result);
     void getPaymentProduct(GetPaymentProductRequest request, Result<PaymentProduct> result);
@@ -955,7 +955,7 @@ public class Messages {
     static void setup(BinaryMessenger binaryMessenger, Api api) {
       {
         BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.Api.initClientSession", getCodec());
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.Api.createClientSession", getCodec());
         if (api != null) {
           channel.setMessageHandler((message, reply) -> {
             Map<String, Object> wrapped = new HashMap<>();
@@ -965,7 +965,7 @@ public class Messages {
               if (requestArg == null) {
                 throw new NullPointerException("requestArg unexpectedly null.");
               }
-              SessionResponse output = api.initClientSession(requestArg);
+              SessionResponse output = api.createClientSession(requestArg);
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {

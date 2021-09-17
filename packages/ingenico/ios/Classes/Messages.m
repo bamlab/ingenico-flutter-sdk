@@ -697,16 +697,16 @@ void FLTApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<FLTApi> *a
   {
     FlutterBasicMessageChannel *channel =
       [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.Api.initClientSession"
+        messageChannelWithName:@"dev.flutter.pigeon.Api.createClientSession"
         binaryMessenger:binaryMessenger
         codec:FLTApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(initClientSessionRequest:error:)], @"FLTApi api (%@) doesn't respond to @selector(initClientSessionRequest:error:)", api);
+      NSCAssert([api respondsToSelector:@selector(createClientSessionRequest:error:)], @"FLTApi api (%@) doesn't respond to @selector(createClientSessionRequest:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
         NSArray *args = message;
         FLTSessionRequest *arg_request = args[0];
         FlutterError *error;
-        FLTSessionResponse *output = [api initClientSessionRequest:arg_request error:&error];
+        FLTSessionResponse *output = [api createClientSessionRequest:arg_request error:&error];
         callback(wrapResult(output, error));
       }];
     }

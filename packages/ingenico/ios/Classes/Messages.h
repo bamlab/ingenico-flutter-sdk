@@ -205,7 +205,7 @@ typedef NS_ENUM(NSUInteger, FLTValidationType) {
 NSObject<FlutterMessageCodec> *FLTApiGetCodec(void);
 
 @protocol FLTApi
-- (nullable FLTSessionResponse *)initClientSessionRequest:(FLTSessionRequest *)request error:(FlutterError *_Nullable *_Nonnull)error;
+- (nullable FLTSessionResponse *)createClientSessionRequest:(FLTSessionRequest *)request error:(FlutterError *_Nullable *_Nonnull)error;
 - (void)_passThroughA:(FLTPaymentProductField *)a b:(FLTBasicPaymentProduct *)b c:(FLTAbstractValidationRule *)c d:(FLTValueMap *)d e:(FLTPaymentProductFieldDisplayElement *)e error:(FlutterError *_Nullable *_Nonnull)error;
 - (void)getBasicPaymentItemsRequest:(nullable FLTPaymentContextRequest *)request completion:(void(^)(FLTPaymentContextResponse *_Nullable, FlutterError *_Nullable))completion;
 - (void)getPaymentProductRequest:(nullable FLTGetPaymentProductRequest *)request completion:(void(^)(FLTPaymentProduct *_Nullable, FlutterError *_Nullable))completion;

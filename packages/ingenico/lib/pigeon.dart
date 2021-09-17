@@ -651,9 +651,9 @@ class Api {
 
   static const MessageCodec<Object?> codec = _ApiCodec();
 
-  Future<SessionResponse> initClientSession(SessionRequest arg_request) async {
+  Future<SessionResponse> createClientSession(SessionRequest arg_request) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.Api.initClientSession', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.Api.createClientSession', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object>[arg_request]) as Map<Object?, Object?>?;
     if (replyMap == null) {

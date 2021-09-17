@@ -189,7 +189,7 @@ class PreparedPaymentRequest {
 
 @HostApi()
 abstract class Api {
-  SessionResponse initClientSession(SessionRequest request);
+  SessionResponse createClientSession(SessionRequest request);
 
   // For proper object generation
   // ignore: unused_element

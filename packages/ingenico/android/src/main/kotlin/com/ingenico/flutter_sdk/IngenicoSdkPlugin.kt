@@ -35,7 +35,7 @@ class IngenicoSdkPlugin : FlutterPlugin, Messages.Api {
         Messages.Api.setup(binding.binaryMessenger, null)
     }
 
-    override fun initClientSession(arg: Messages.SessionRequest): Messages.SessionResponse {
+    override fun createClientSession(arg: Messages.SessionRequest): Messages.SessionResponse {
         val session: Session = C2sCommunicatorConfiguration.initWithClientSessionId(
             arg.clientSessionId,
             arg.customerId,
