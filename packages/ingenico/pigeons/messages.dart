@@ -31,7 +31,7 @@ class GetPaymentProductRequest {
 }
 
 class PaymentContextResponse {
-  late List<BasicPaymentProduct> basicPaymentProduct;
+  late List<BasicPaymentProduct?> basicPaymentProduct;
 }
 
 class BasicPaymentProduct {
@@ -64,7 +64,7 @@ class PaymentProduct {
   late bool? allowsTokenization;
   late bool? usesRedirectionTo3rdParty;
   late DisplayHintsPaymentItem displayHints;
-  late List<PaymentProductField> fields;
+  late List<PaymentProductField?> fields;
 }
 
 class PaymentProductField {
@@ -175,7 +175,7 @@ class AbstractValidationRule {
 }
 
 class PaymentRequest {
-  late Map<String, String> values;
+  late Map<String?, String?> values;
   late String paymentProductId;
   late bool tokenize;
   late String sessionId;

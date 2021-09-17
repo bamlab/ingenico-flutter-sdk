@@ -16,8 +16,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  pigeon:
-    path: ../../../packages/packages/pigeon
+  pigeon: ^1.0.4
 
 flutter:
   plugin:
