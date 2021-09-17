@@ -2,7 +2,7 @@ import Flutter
 import IngenicoConnectKit
 import UIKit
 
-public class SwiftIngenicoSdkPlugin: NSObject, FlutterPlugin, FLTApi {
+public class SwiftIngenicoSdk: NSObject, FlutterPlugin, FLTApi {
     public func _passThroughA(_ a: FLTPaymentProductField, b: FLTBasicPaymentProduct, c: FLTAbstractValidationRule, d: FLTValueMap, e: FLTPaymentProductFieldDisplayElement, error: AutoreleasingUnsafeMutablePointer<FlutterError?>) {}
 
     private var sessionsMap = [String: Session]()
@@ -10,7 +10,7 @@ public class SwiftIngenicoSdkPlugin: NSObject, FlutterPlugin, FLTApi {
 
     public static func register(with registrar: FlutterPluginRegistrar) {
         let messenger: FlutterBinaryMessenger = registrar.messenger()
-        let api: FLTApi & NSObjectProtocol = SwiftIngenicoSdkPlugin()
+        let api: FLTApi & NSObjectProtocol = SwiftIngenicoSdk()
         FLTApiSetup(messenger, api)
     }
 

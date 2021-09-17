@@ -1,4 +1,4 @@
-#import "IngenicoSdkPlugin.h"
+#import "IngenicoSdk.h"
 #if __has_include(<ingenico_sdk/ingenico_sdk-Swift.h>)
 #import <ingenico_sdk/ingenico_sdk-Swift.h>
 #else
@@ -8,8 +8,8 @@
 #import "ingenico_sdk-Swift.h"
 #endif
 
-@implementation IngenicoSdkPlugin
+@implementation IngenicoSdk
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
-  [SwiftIngenicoSdkPlugin registerWithRegistrar:registrar];
+  [SwiftIngenicoSdk registerWithRegistrar:registrar];
 }
 @end

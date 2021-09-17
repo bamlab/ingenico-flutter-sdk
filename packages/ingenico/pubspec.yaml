@@ -25,4 +25,4 @@ flutter:
         package: com.ingenico.flutter_sdk
         pluginClass: IngenicoSdkPlugin
       ios:
-        pluginClass: IngenicoSdkPlugin
+        pluginClass: IngenicoSdk
