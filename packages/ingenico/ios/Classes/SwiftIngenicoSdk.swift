@@ -99,7 +99,10 @@ public class SwiftIngenicoSdk: NSObject, FlutterPlugin, FLTApi {
                                success: { paymentProduct in
                                    let response = FLTPaymentProduct()
 
+                                   self.paymentProductMap[paymentProduct.identifier] = paymentProduct
+
                                    response.fields = paymentProduct.fields.paymentProductFields.map(self.mapPaymentProductField)
+                                   response.id = paymentProduct.identifier
                                    completion(response, nil)
                                }, failure: { error in
                                    let error = FlutterError(code: "ERROR", message: error.localizedDescription, details: nil)
@@ -108,6 +111,7 @@ public class SwiftIngenicoSdk: NSObject, FlutterPlugin, FLTApi {
     }
 
     public func preparePaymentRequest(_ input: FLTPaymentRequest?, completion: @escaping (FLTPreparedPaymentRequest?, FlutterError?) -> Void) {
+        print("coucou")
         let paymentProduct = paymentProductMap[input!.paymentProductId!]!
 
         let paymentRequest = PaymentRequest(paymentProduct: paymentProduct, accountOnFile: nil, tokenize: input!.tokenize! as? Bool)
