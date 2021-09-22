@@ -111,7 +111,6 @@ public class SwiftIngenicoSdk: NSObject, FlutterPlugin, FLTApi {
     }
 
     public func preparePaymentRequest(_ input: FLTPaymentRequest?, completion: @escaping (FLTPreparedPaymentRequest?, FlutterError?) -> Void) {
-        print("coucou")
         let paymentProduct = paymentProductMap[input!.paymentProductId!]!
 
         let paymentRequest = PaymentRequest(paymentProduct: paymentProduct, accountOnFile: nil, tokenize: input!.tokenize! as? Bool)
