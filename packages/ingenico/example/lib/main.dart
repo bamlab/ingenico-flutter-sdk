@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -26,21 +28,20 @@ class _MyAppState extends State<MyApp> {
   Future<void> initPlatformState() async {
     if (!mounted) return;
 
-    // final response = await http.post(
-    //   Uri.parse(
-    //     "https://internal-recette.zonesecure.org/payment/init?pspid=DROUOTFLEXTEST",
-    //   ),
-    // );
+    final response = await http.get(
+      Uri.parse(
+        "https://internal-recette.zonesecure.org/payment/init?pspid=DROUOTFLEXTEST",
+      ),
+    );
 
-    // print(response);
+    final body = jsonDecode(response.body);
 
     final _session = await IngenicoSdk.initClientSession(
       applicationIdentifier: "Example Application/v1",
-      clientSessionId: "49de5b55de3742d7b2cc2a103f03a6f7",
-      customerId: "bc1b94d79a1249a2a5ef532105a94c3f",
-      assetBaseUrl:
-          "https://assets.test.cdn.v-psp.com/s2s/59770a976c96d5477744",
-      clientApiUrl: "https://payment.preprod.direct.ingenico.com",
+      clientSessionId: body["clientSessionId"],
+      customerId: body["customerId"],
+      assetBaseUrl: body["assetUrl"],
+      clientApiUrl: body["clientApiUrl"],
       environmentIsProduction: false,
     );
 

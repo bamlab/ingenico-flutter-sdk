@@ -103,6 +103,8 @@ public class SwiftIngenicoSdk: NSObject, FlutterPlugin, FLTApi {
 
                                    response.fields = paymentProduct.fields.paymentProductFields.map(self.mapPaymentProductField)
                                    response.id = paymentProduct.identifier
+                                   response.allowsRecurring = NSNumber(value: paymentProduct.allowsRecurring)
+                                   response.allowsTokenization = NSNumber(value: paymentProduct.allowsTokenization)
                                    completion(response, nil)
                                }, failure: { error in
                                    let error = FlutterError(code: "ERROR", message: error.localizedDescription, details: nil)
