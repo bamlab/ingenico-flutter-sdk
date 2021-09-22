@@ -170,6 +170,12 @@ class IngenicoSdkPlugin : FlutterPlugin, Messages.Api {
                 val response = Messages.PaymentProduct()
                 paymentProductMap[paymentProduct.id] = paymentProduct
                 response.fields = paymentProduct.paymentProductFields.map { mapPaymentProductField(it) }
+                response.id = paymentProduct.id
+                response.allowsRecurring = paymentProduct.allowsRecurring()
+                response.allowsTokenization = paymentProduct.allowsTokenization()
+                response.maxAmount = paymentProduct.maxAmount?.toDouble()
+                response.minAmount = paymentProduct.minAmount?.toDouble()
+                response.displayHints = mapDisplayHints(paymentProduct.displayHints)
                 result.success(response)
             }
 
