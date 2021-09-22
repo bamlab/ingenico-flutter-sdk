@@ -150,7 +150,7 @@ class IngenicoSdkPlugin : FlutterPlugin, Messages.Api {
             }
 
             override fun onBasicPaymentItemsCallError(error: ErrorResponse) {
-                throw Error(error.message)
+                result.error(Error(error.message))
             }
         }
 
@@ -181,7 +181,7 @@ class IngenicoSdkPlugin : FlutterPlugin, Messages.Api {
 
 
             override fun onPaymentProductCallError(error: ErrorResponse) {
-                throw Error(error.message)
+                result.error(Error(error.message))
             }
         }
 
@@ -212,7 +212,7 @@ class IngenicoSdkPlugin : FlutterPlugin, Messages.Api {
                 if (preparedPaymentRequest == null ||
                     preparedPaymentRequest.encryptedFields == null
                 ) {
-                    throw Error("Couldn't prepare the payment")
+                    result.error(Error("Couldn't prepare the payment"))
                 } else {
                     val response = Messages.PreparedPaymentRequest()
                     response.encryptedFields = preparedPaymentRequest.encryptedFields
