@@ -154,9 +154,10 @@ class IngenicoSdkPlugin : FlutterPlugin, Messages.Api {
             }
         }
 
-        val session = sessionsMap[arg.sessionId] ?: throw Error("Cannot find session")
-        session.getBasicPaymentItems(context, paymentContext, listener, false)
-
+        val session = sessionsMap[arg.sessionId] ?: result.error(Error("Cannot find session"))
+        if (session is Session) {
+            session.getBasicPaymentItems(context, paymentContext, listener, false)
+        }
     }
 
     override fun getPaymentProduct(

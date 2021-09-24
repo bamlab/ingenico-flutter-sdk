@@ -80,6 +80,19 @@ class _MyAppState extends State<MyApp> {
 
     print(preparedPayment);
 
+    final responseToken = await http.post(
+      Uri.parse(
+        "https://internal-recette.zonesecure.org/payment/alias",
+      ),
+      body: {
+        "encryptedData": preparedPayment.encryptedFields,
+        "platform": "drouot",
+        "returnUrl": "https://test.com"
+      },
+    );
+
+    print(responseToken);
+
     setState(() {
       session = _session;
     });

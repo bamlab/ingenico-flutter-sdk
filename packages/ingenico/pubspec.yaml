@@ -11,7 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
   ingenico_platform_interface:
-    path: ../ingenico_platform_interface
+    git:
+      url: git://github.com/bamlab/ingenico-flutter-sdk.git
+      path: packages/ingenico_platform_interface
 
 dev_dependencies:
   flutter_test:
