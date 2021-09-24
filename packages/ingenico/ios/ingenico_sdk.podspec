@@ -15,7 +15,7 @@ A new flutter plugin project.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'IngenicoConnectKit'
+  s.dependency 'IngenicoConnectKit', '5.0.1'
   # s.dependency 'CryptoSwift', '1.4.1'
   s.platform = :ios, '9.0'
 
