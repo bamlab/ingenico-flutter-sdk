@@ -69,9 +69,9 @@ class _MyAppState extends State<MyApp> {
     final preparedPayment = await _session.preparePaymentRequest(
       paymentProductId: basicPaymentProduct.id!,
       values: {
-        "cardNumber": "4111111111111111",
+        "cardNumber": "4000000000000002",
         "cardholderName": "Guillaume Bernos",
-        "expiryDate": "02/2022",
+        "expiryDate": "0222",
         "cvv": "911",
       },
       currencyCode: 'EUR',

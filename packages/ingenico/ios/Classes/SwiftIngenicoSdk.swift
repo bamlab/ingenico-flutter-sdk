@@ -118,7 +118,7 @@ public class SwiftIngenicoSdk: NSObject, FlutterPlugin, FLTApi {
         let paymentRequest = PaymentRequest(paymentProduct: paymentProduct, accountOnFile: nil, tokenize: input!.tokenize! as? Bool)
 
         input!.values!.forEach { (key: AnyHashable, value: Any) in
-            paymentRequest.setValue(forField: value as! String, value: key as! String)
+            paymentRequest.setValue(forField: key as! String, value: value as! String)
         }
         let session = sessionsMap[input!.sessionId!]!
 
