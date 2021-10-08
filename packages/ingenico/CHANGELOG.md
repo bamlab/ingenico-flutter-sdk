@@ -1,3 +1,7 @@
+## 0.0.3
+
+ - **FEAT**: bump ios min version to 10 for Ingenico SDK.
+
 ## 0.0.2
 
  - **FIX**: inversed data on iOS.
